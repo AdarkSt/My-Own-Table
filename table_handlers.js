@@ -22,7 +22,18 @@ export class EventHandling {
 
     updater = function(event, data) {
         const currentRow = event.target.parentNode.parentNode;
-
+        const childrens = Array.from(currentRow.children);
+        for (let child of childrens) {
+            child.setAttribute("contenteditable", "true");
+            child.addEventListener("blur", event => {
+                for (let object of data) {
+                    if (currentRow.myId == object.id) {
+                        object[child.memory] = event.target.textContent;
+                    }
+                }
+            })
+        }
+        return data;
     }
 
     handleEvent(event) {
@@ -33,6 +44,9 @@ export class EventHandling {
                 removeAllChildNodes(this.element);
                 tableRendrer(this.data, this.config, this.element);
             }
+        }
+        if (event.target.handler == 1) {
+            this.updater(event, this.data);
         }
     }
 
