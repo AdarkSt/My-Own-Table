@@ -1,4 +1,4 @@
-export const matches = [{
+export const data = [{
         league: "QATAR: Stars League",
         date: "2021-12-29",
         teams: "Al Shamal - Al Rayyan SC",

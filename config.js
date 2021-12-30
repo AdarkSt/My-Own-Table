@@ -28,7 +28,15 @@ export const standard = [{
     {
         key: "button",
         label: "Buttons",
-        form: ["Update", "Delete"],
+        form: [{
+                type: "Update",
+                handleId: 1,
+            },
+            {
+                type: "Delete",
+                handleId: 2,
+            }
+        ],
         renderMethod: buttonRender,
         hederRender: collumnHeaderRender,
     },

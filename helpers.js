@@ -6,3 +6,16 @@ export function findCountOf(arr, value) {
     }
     return count;
 }
+
+export function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+
+export function getRandomInt(min = 100, max = 100000) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
