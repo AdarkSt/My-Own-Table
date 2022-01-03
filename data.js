@@ -3,6 +3,7 @@ export const data = [{
         date: "2021-12-29",
         teams: "Al Shamal - Al Rayyan SC",
         result: "2-3",
+
     },
     {
         league: "INTERNATIONAL: Suzuki Cup, Group Stage",

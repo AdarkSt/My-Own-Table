@@ -4,68 +4,87 @@ const collumnHeaderRender = function(trElement) {
     trElement.append(thElement);
 }
 
-const textRender = function(trElement, object = null, handler = null) {
-    const tdElement = document.createElement("td");
-    tdElement.textContent = object[this.key];
-    tdElement.memory = this.key;
-    trElement.myId = object.id;
-    trElement.append(tdElement);
-}
-
 const buttonRender = function(trElement, object = null, handler = null) {
     const tdElement = document.createElement("td");
+
     for (let button of this.form) {
         const buttonElement = document.createElement("button");
+
         buttonElement.className = "btn btn-outline-secondary btn-sm btn-block "
         buttonElement.textContent = button.type;
         buttonElement.handler = button.handleId;
         buttonElement.addEventListener("click", handler)
+
         tdElement.append(buttonElement)
     }
+
     trElement.append(tdElement);
 }
 
-const iconRender = function(trElement, object = null, handler = null) {
+const rendrer = function(trElement, object = null, handler = null) {
     const tdElement = document.createElement("td");
-    const imgElement = document.createElement("img");
-    imgElement.src = object[this.key];
-    tdElement.append(imgElement);
+    tdElement.className = this.collumnClass;
+
+    const inner = document.createElement(`${this.type}`);
+    inner.className += this.innerClass;
+    inner.textContent = object[this.key];
+    inner.src = inner.href = object[this.key];
+
+    trElement.myId = object.id;
+    tdElement.memory = this.key;
+
+    tdElement.append(inner);
     trElement.append(tdElement);
 }
 
 export const standard = [{
         key: "league",
         label: "League",
-        renderMethod: textRender,
+        type: "span",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: rendrer,
         hederRender: collumnHeaderRender,
     },
     {
         key: "teams",
         label: "Teams",
-        renderMethod: textRender,
+        type: "span",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: rendrer,
         hederRender: collumnHeaderRender,
     },
     {
         key: "date",
         label: "Date",
-        renderMethod: textRender,
+        type: "span",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: rendrer,
         hederRender: collumnHeaderRender,
     },
     {
         key: "icon",
         label: "Icon",
-        renderMethod: iconRender,
+        type: "img",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: rendrer,
         hederRender: collumnHeaderRender,
     },
     {
         key: "result",
         label: "Result",
-        renderMethod: textRender,
+        type: "span",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: rendrer,
         hederRender: collumnHeaderRender,
     },
     {
         key: "button",
-        label: "Buttons",
+        label: "Action",
         form: [{
                 type: "Update",
                 handleId: 1,
@@ -77,6 +96,5 @@ export const standard = [{
         ],
         renderMethod: buttonRender,
         hederRender: collumnHeaderRender,
-    },
-
+    }
 ]

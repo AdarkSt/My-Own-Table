@@ -15,6 +15,7 @@ export const tableRendrer = function(data = [], config, element) {
     let headerRow = document.createElement("tr");
     thead.append(headerRow)
     console.log(data);
+
     for (let object of data) {
         object.id = getRandomInt();
         const currentRow = document.createElement("tr");
@@ -26,7 +27,8 @@ export const tableRendrer = function(data = [], config, element) {
         }
         ++index;
         tbody.append(currentRow);
-
     }
+
     element.append(table);
+    return table;
 }
