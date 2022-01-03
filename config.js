@@ -21,65 +21,70 @@ const buttonRender = function(trElement, object = null, handler = null) {
     trElement.append(tdElement);
 }
 
-const rendrer = function(trElement, object = null, handler = null) {
+const textRender = function(trElement, object = null, handler = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
 
-    const inner = document.createElement(`${this.type}`);
-    inner.className += this.innerClass;
-    inner.textContent = object[this.key];
-    inner.src = inner.href = object[this.key];
+    const spanElement = document.createElement("span");
+    spanElement.className += this.innerClass;
 
-    trElement.myId = object.id;
+    spanElement.textContent = object[this.key];
+
     tdElement.memory = this.key;
+    trElement.myId = object.id;
+    tdElement.append(spanElement);
+    trElement.append(tdElement);
+}
 
-    tdElement.append(inner);
+const iconRender = function(trElement, object = null, handler = null) {
+    const tdElement = document.createElement("td");
+    tdElement.className = this.collumnClass;
+    const imgElement = document.createElement("img");
+    imgElement.className += this.innerClass;
+
+    imgElement.src = object[this.key];
+    tdElement.append(imgElement);
     trElement.append(tdElement);
 }
 
 export const standard = [{
         key: "league",
         label: "League",
-        type: "span",
         collumnClass: "",
         innerClass: "",
-        renderMethod: rendrer,
+        renderMethod: textRender,
         hederRender: collumnHeaderRender,
     },
     {
         key: "teams",
         label: "Teams",
-        type: "span",
         collumnClass: "",
         innerClass: "",
-        renderMethod: rendrer,
+        renderMethod: textRender,
         hederRender: collumnHeaderRender,
     },
     {
         key: "date",
         label: "Date",
-        type: "span",
         collumnClass: "",
         innerClass: "",
-        renderMethod: rendrer,
+        renderMethod: textRender,
         hederRender: collumnHeaderRender,
     },
     {
         key: "icon",
         label: "Icon",
-        type: "img",
         collumnClass: "",
         innerClass: "",
-        renderMethod: rendrer,
+        renderMethod: iconRender,
         hederRender: collumnHeaderRender,
     },
     {
         key: "result",
         label: "Result",
-        type: "span",
         collumnClass: "",
         innerClass: "",
-        renderMethod: rendrer,
+        renderMethod: textRender,
         hederRender: collumnHeaderRender,
     },
     {
