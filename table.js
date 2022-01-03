@@ -4,7 +4,7 @@ import { EventHandling } from "./table_handlers.js";
 export const tableRendrer = function(data = [], config, element) {
     const handler = new EventHandling(data, config, element);
     const table = document.createElement("table");
-    table.className = "table table-dark table-striped table-bordered table-hover table-responsive blockquote text-center"
+    table.className = "my-table-style table table-dark table-striped table-bordered table-hover table-responsive blockquote text-center"
 
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");

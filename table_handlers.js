@@ -47,6 +47,15 @@ export class EventHandling {
         }
         if (event.target.handler == 1) {
             this.updater(event, this.data);
+            event.target.removeEventListener("click", this)
+            event.target.addEventListener("click", () => {
+                const currentRow = event.target.parentNode.parentNode;
+                const childrens = Array.from(currentRow.children);
+                for (let child of childrens) {
+                    child.setAttribute("contenteditable", "false");
+                }
+                event.target.addEventListener("click", this);
+            })
         }
     }
 
