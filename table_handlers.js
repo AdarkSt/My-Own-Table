@@ -1,62 +1,34 @@
-import { tableRendrer } from "./table.js";
-import { removeAllChildNodes } from "./helpers.js"
+import { deleter, updater } from "./data_manipulations.js"
 
-export class EventHandling {
-    constructor(data, config, element) {
-        this.data = data;
-        this.config = config;
-        this.element = element;
+export function deleteButtonHandler(event, data) {
+    const answer = confirm("do you realy want to delete this row");
+    if (answer) {
+        deleter(event, data);
     }
+}
 
-    deleter = function(event, data) {
-        let index = 0;
-        for (let object of data) {
-            if (object.id == event.target.parentNode.parentNode.myId) {
-                data.splice(index, 1);
-                break;
-            }
-            index++
-        }
-        return data;
-    }
+export function updateButtonHandler(event, data) {
+    const currentRow = event.target.parentNode.parentNode;
+    const childrens = Array.from(currentRow.children);
 
-    updater = function(event, data) {
-        const currentRow = event.target.parentNode.parentNode;
-        const childrens = Array.from(currentRow.children);
+    function firstEvent() {
         for (let child of childrens) {
             child.setAttribute("contenteditable", "true");
             child.addEventListener("blur", event => {
-                for (let object of data) {
-                    if (currentRow.myId == object.id) {
-                        object[child.memory] = event.target.textContent;
-                    }
-                }
+                updater(event, data);
             })
         }
-        return data;
+        event.target.removeEventListener("click", firstEvent);
+        event.target.addEventListener("click", secondEvent);
     }
 
-    handleEvent(event) {
-        if (event.target.handler == 2) {
-            let answer = confirm("Do you really want to delete this row?");
-            if (answer) {
-                this.data = this.deleter(event, this.data)
-                removeAllChildNodes(this.element);
-                tableRendrer(this.data, this.config, this.element);
-            }
+    function secondEvent() {
+        for (let child of childrens) {
+            child.setAttribute("contenteditable", "false");
         }
-        if (event.target.handler == 1) {
-            this.updater(event, this.data);
-            event.target.removeEventListener("click", this)
-            event.target.addEventListener("click", () => {
-                const currentRow = event.target.parentNode.parentNode;
-                const childrens = Array.from(currentRow.children);
-                for (let child of childrens) {
-                    child.setAttribute("contenteditable", "false");
-                }
-                event.target.addEventListener("click", this);
-            })
-        }
+        event.target.removeEventListener("click", secondEvent);
+        event.target.addEventListener("click", firstEvent);
     }
-
+    event.target.addEventListener("click", firstEvent);
+    firstEvent()
 }

@@ -13,7 +13,6 @@ export function removeAllChildNodes(parent) {
     }
 }
 
-
 export function getRandomInt(min = 100, max = 100000) {
     min = Math.ceil(min);
     max = Math.floor(max);

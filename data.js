@@ -89,4 +89,5 @@ export const data = [{
         teams: "QPR - Bournemouth",
         result: "2-1",
     },
+
 ];

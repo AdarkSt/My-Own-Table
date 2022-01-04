@@ -1,8 +1,7 @@
 import { getRandomInt } from "./helpers.js";
-import { EventHandling } from "./table_handlers.js";
+
 
 export const tableRendrer = function(data = [], config, element) {
-    const handler = new EventHandling(data, config, element);
     const table = document.createElement("table");
     table.className = "my-table-style table table-dark table-striped table-bordered table-hover table-responsive blockquote text-center"
 
@@ -21,9 +20,9 @@ export const tableRendrer = function(data = [], config, element) {
         const currentRow = document.createElement("tr");
         for (let collumn of config) {
             if (index == 0) {
-                collumn.hederRender(headerRow);
+                collumn.headerRender(headerRow);
             }
-            collumn.renderMethod(currentRow, object, handler);
+            collumn.renderMethod(currentRow, object, data);
         }
         ++index;
         tbody.append(currentRow);

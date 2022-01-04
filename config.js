@@ -1,10 +1,12 @@
+import { deleteButtonHandler, updateButtonHandler } from "./table_handlers.js"
+
 const collumnHeaderRender = function(trElement) {
     const thElement = document.createElement("th");
     thElement.textContent = this.label;
     trElement.append(thElement);
 }
 
-const buttonRender = function(trElement, object = null, handler = null) {
+const buttonRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
 
     for (let button of this.form) {
@@ -13,7 +15,9 @@ const buttonRender = function(trElement, object = null, handler = null) {
         buttonElement.className = "btn btn-outline-secondary btn-sm btn-block "
         buttonElement.textContent = button.type;
         buttonElement.handler = button.handleId;
-        buttonElement.addEventListener("click", handler)
+        buttonElement.addEventListener("click", (event) => {
+            button.handleMethod(event, data);
+        })
 
         tdElement.append(buttonElement)
     }
@@ -21,7 +25,7 @@ const buttonRender = function(trElement, object = null, handler = null) {
     trElement.append(tdElement);
 }
 
-const textRender = function(trElement, object = null, handler = null) {
+const textRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
 
@@ -36,7 +40,7 @@ const textRender = function(trElement, object = null, handler = null) {
     trElement.append(tdElement);
 }
 
-const iconRender = function(trElement, object = null, handler = null) {
+const iconRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
     const imgElement = document.createElement("img");
@@ -53,7 +57,7 @@ export const standard = [{
         collumnClass: "",
         innerClass: "",
         renderMethod: textRender,
-        hederRender: collumnHeaderRender,
+        headerRender: collumnHeaderRender,
     },
     {
         key: "teams",
@@ -61,7 +65,7 @@ export const standard = [{
         collumnClass: "",
         innerClass: "",
         renderMethod: textRender,
-        hederRender: collumnHeaderRender,
+        headerRender: collumnHeaderRender,
     },
     {
         key: "date",
@@ -69,7 +73,7 @@ export const standard = [{
         collumnClass: "",
         innerClass: "",
         renderMethod: textRender,
-        hederRender: collumnHeaderRender,
+        headerRender: collumnHeaderRender,
     },
     {
         key: "icon",
@@ -77,7 +81,7 @@ export const standard = [{
         collumnClass: "",
         innerClass: "",
         renderMethod: iconRender,
-        hederRender: collumnHeaderRender,
+        headerRender: collumnHeaderRender,
     },
     {
         key: "result",
@@ -85,21 +89,21 @@ export const standard = [{
         collumnClass: "",
         innerClass: "",
         renderMethod: textRender,
-        hederRender: collumnHeaderRender,
+        headerRender: collumnHeaderRender,
     },
     {
         key: "button",
         label: "Action",
         form: [{
                 type: "Update",
-                handleId: 1,
+                handleMethod: updateButtonHandler,
             },
             {
                 type: "Delete",
-                handleId: 2,
+                handleMethod: deleteButtonHandler,
             }
         ],
         renderMethod: buttonRender,
-        hederRender: collumnHeaderRender,
+        headerRender: collumnHeaderRender,
     }
 ]
