@@ -8,6 +8,7 @@ const collumnHeaderRender = function(trElement) {
 
 const buttonRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
+    tdElement.editable = this.editable;
 
     for (let button of this.form) {
         const buttonElement = document.createElement("button");
@@ -28,6 +29,7 @@ const buttonRender = function(trElement, object = null, data = null) {
 const textRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
+    tdElement.editable = this.editable;
 
     const spanElement = document.createElement("span");
     spanElement.className += this.innerClass;
@@ -43,6 +45,8 @@ const textRender = function(trElement, object = null, data = null) {
 const iconRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
+    tdElement.editable = this.editable;
+
     const imgElement = document.createElement("img");
     imgElement.className += this.innerClass;
 
@@ -56,6 +60,7 @@ export const standard = [{
         label: "League",
         collumnClass: "",
         innerClass: "",
+        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
@@ -64,6 +69,7 @@ export const standard = [{
         label: "Teams",
         collumnClass: "",
         innerClass: "",
+        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
@@ -72,6 +78,7 @@ export const standard = [{
         label: "Date",
         collumnClass: "",
         innerClass: "",
+        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
@@ -80,6 +87,7 @@ export const standard = [{
         label: "Icon",
         collumnClass: "",
         innerClass: "",
+        editable: false,
         renderMethod: iconRender,
         headerRender: collumnHeaderRender,
     },
@@ -88,12 +96,14 @@ export const standard = [{
         label: "Result",
         collumnClass: "",
         innerClass: "",
+        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "button",
         label: "Action",
+        editable: false,
         form: [{
                 type: "Update",
                 handleMethod: updateButtonHandler,

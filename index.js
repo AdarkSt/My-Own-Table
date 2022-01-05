@@ -8,7 +8,7 @@
  const main = document.querySelector(".main");
  tableRendrer(data, standard, main);
 
- function refresher(data) {
+ function rerendrer(data) {
      if (data.length != currentLength) {
          currentLength = data.length;
          removeAllChildNodes(main);
@@ -17,5 +17,5 @@
  }
 
  setInterval(() => {
-     refresher(data);
+     rerendrer(data);
  }, 0)
