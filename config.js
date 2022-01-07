@@ -101,7 +101,7 @@ export const standard = [{
         headerRender: collumnHeaderRender,
     },
     {
-        key: "button",
+        key: "action",
         label: "Action",
         editable: false,
         form: [{

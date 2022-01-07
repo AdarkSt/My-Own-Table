@@ -1,21 +1,36 @@
- import { tableRendrer } from "./table.js";
- import { data } from "./data.js"
- import { standard } from "./config.js"
- import { removeAllChildNodes } from "./helpers.js";
+  import { tableRendrer } from "./table.js";
+  import { standard } from "./config.js"
+  import { data } from "./data.js"
+  import { removeAllChildNodes } from "./helpers.js";
 
- let currentLength = data.length;
+  const main = document.querySelector(".main");
 
- const main = document.querySelector(".main");
- tableRendrer(data, standard, main);
+  const objectChangeHandler = {
+      set: function(target, property, value) {
+          target[property] = value;
+          if (property != "id") {
+              removeAllChildNodes(main);
+              tableRendrer(proxyOfData, standard, main);
+          }
+          return true;
+      }
+  }
 
- function rerendrer(data) {
-     if (data.length != currentLength) {
-         currentLength = data.length;
-         removeAllChildNodes(main);
-         tableRendrer(data, standard, main);
-     }
- }
+  const dataChangeHandler = {
+      set: function(target, property, value) {
+          target[property] = value;
+          if (property == "length") {
+              removeAllChildNodes(main);
+              tableRendrer(proxyOfData, standard, main);
+          }
+          return true;
+      }
+  };
 
- setInterval(() => {
-     rerendrer(data);
- }, 0)
+  const dataOfProxyObj = []
+  for (let obj of data) {
+      dataOfProxyObj.push(new Proxy(obj, objectChangeHandler));
+  }
+
+  let proxyOfData = new Proxy(dataOfProxyObj, dataChangeHandler);
+  tableRendrer(proxyOfData, standard, main);
