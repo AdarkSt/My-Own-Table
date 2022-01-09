@@ -19,3 +19,11 @@
 .my-table-style {
     width: 90%;
 }
+
+.myin {
+    background-color: transparent;
+    border: 0px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+}

@@ -1,6 +1,6 @@
-import { deleteButtonHandler, updateButtonHandler } from "./table_handlers.js"
+import { deleteButtonHandler, updateButtonHandler, saveButtonHandler, cancelButtonHandler } from "./table_handlers.js"
 
-const collumnHeaderRender = function(trElement) {
+const collumnHeaderRender = function(trElement, merge = 0) {
     const thElement = document.createElement("th");
     thElement.textContent = this.label;
     trElement.append(thElement);
@@ -8,16 +8,18 @@ const collumnHeaderRender = function(trElement) {
 
 const buttonRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
-    tdElement.editable = this.editable;
+    tdElement.className = this.collumnClass;
+    tdElement.setAttribute("aria-readonly", "true");
 
-    for (let button of this.form) {
+    for (let button of this.inner) {
         const buttonElement = document.createElement("button");
+        buttonElement.hidden = button.hidden;
 
         buttonElement.className = "btn btn-outline-secondary btn-sm btn-block "
-        buttonElement.textContent = button.type;
+        buttonElement.textContent = button.name;
         buttonElement.handler = button.handleId;
         buttonElement.addEventListener("click", (event) => {
-            button.handleMethod(event, data);
+            button.handleMethod(event, data, standard);
         })
 
         tdElement.append(buttonElement)
@@ -29,7 +31,7 @@ const buttonRender = function(trElement, object = null, data = null) {
 const textRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
-    tdElement.editable = this.editable;
+    tdElement.setAttribute("aria-readonly", "false")
 
     const spanElement = document.createElement("span");
     spanElement.className += this.innerClass;
@@ -45,7 +47,7 @@ const textRender = function(trElement, object = null, data = null) {
 const iconRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
-    tdElement.editable = this.editable;
+    tdElement.setAttribute("aria-readonly", "true")
 
     const imgElement = document.createElement("img");
     imgElement.className += this.innerClass;
@@ -60,7 +62,6 @@ export const standard = [{
         label: "League",
         collumnClass: "",
         innerClass: "",
-        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
@@ -69,7 +70,6 @@ export const standard = [{
         label: "Teams",
         collumnClass: "",
         innerClass: "",
-        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
@@ -78,7 +78,6 @@ export const standard = [{
         label: "Date",
         collumnClass: "",
         innerClass: "",
-        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
@@ -87,7 +86,6 @@ export const standard = [{
         label: "Icon",
         collumnClass: "",
         innerClass: "",
-        editable: false,
         renderMethod: iconRender,
         headerRender: collumnHeaderRender,
     },
@@ -96,24 +94,37 @@ export const standard = [{
         label: "Result",
         collumnClass: "",
         innerClass: "",
-        editable: true,
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "action",
         label: "Action",
-        editable: false,
-        form: [{
-                type: "Update",
+        collumnClass: "",
+        innerClass: "",
+        inner: [{
+                name: "Update",
+                hidden: false,
                 handleMethod: updateButtonHandler,
             },
             {
-                type: "Delete",
+                name: "Save",
+                hidden: true,
+                handleMethod: saveButtonHandler,
+            },
+            {
+                name: "Delete",
+                hidden: false,
                 handleMethod: deleteButtonHandler,
+            },
+            {
+                name: "Cancel",
+                hidden: true,
+                handleMethod: cancelButtonHandler,
             }
         ],
         renderMethod: buttonRender,
         headerRender: collumnHeaderRender,
-    }
+    },
+
 ]

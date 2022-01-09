@@ -1,7 +1,7 @@
-import { deleter, updater } from "./data_manipulations.js"
+import { deleter, saver, canceller } from "./data_manipulations.js"
 import { changeEditableityOfNodes } from "./helpers.js";
 
-export function deleteButtonHandler(event, data) {
+export function deleteButtonHandler(event, data = null, config = null) {
     Swal.fire({
         title: 'Do you really want to delete this row?',
         icon: 'question',
@@ -19,77 +19,67 @@ export function deleteButtonHandler(event, data) {
 
 }
 
-export function updateButtonHandler(event, data) {
-    const currentRow = event.target.parentNode.parentNode;
-    const updateButtonFormerName = event.target.textContent;
-    event.target.textContent = "Save";
 
-    const cancelButton = event.target.nextElementSibling;
-    const cancelButtonFormerName = cancelButton.textContent;
-    cancelButton.textContent = "Cancel";
+export function updateButtonHandler(event, data = null, config = null) {
+    const currentButton = event.target;
 
-    const cancelButtonFormerListener = cancelButton.getEventListeners("click")[0].listener;
-    const childrens = Array.from(currentRow.children);
+    Swal.fire({
+        title: 'Edit mode for this row ENABLED! \n \n Please click Save button for Save your changes or Cancel button for cancel your changes',
+        icon: 'warning',
+    })
 
-    const contents = [];
-    for (let child of childrens) {
-        if (child.editable) {
-            contents.push(child.textContent);
-        }
+    const currentCell = currentButton.parentNode;
+    const currentCellChildrens = Array.from(currentCell.children);
+    const currentRow = currentButton.parentNode.parentNode;
+    const childrensOfCurrentRow = currentRow.children;
+
+    changeEditableityOfNodes(childrensOfCurrentRow, true);
+
+    for (let button of currentCellChildrens) {
+        button.hidden = !button.hidden;
     }
+}
 
-    function starter() {
-        Swal.fire({
-            title: 'Edit mode for this row ENABLED! \n \n Please click Save button for saving your changes or Cancel button for cancelling your changes',
-            icon: 'warning',
-        });
+export function saveButtonHandler(event, data = null, config = null) {
+    const currentButton = event.target;
 
-        changeEditableityOfNodes(childrens, true);
+    Swal.fire({
+        title: 'Your changes have been saved \n \n Edit mode for this row DISABLED! \n Please click Update button again for Enable',
+        icon: 'warning',
+    })
 
-        event.target.removeEventListener("click", starter);
-        event.target.addEventListener("click", saver);
-        cancelButton.removeEventListener("click", cancelButtonFormerListener);
-        cancelButton.addEventListener("click", canceller);
+    const currentCell = currentButton.parentNode;
+    const currentCellChildrens = Array.from(currentCell.children);
+    const currentRow = currentButton.parentNode.parentNode;
+    const childrensOfCurrentRow = currentRow.children;
+
+    saver(event, data);
+
+    changeEditableityOfNodes(childrensOfCurrentRow, false);
+
+    for (let button of currentCellChildrens) {
+        button.hidden = !button.hidden;
     }
+}
 
-    function saver() {
-        Swal.fire({
-            title: 'Your changes have been saved \n \n Edit mode for this row DISABLED! \n \n Please click Ubdate button again for enable',
-            icon: 'warning',
-        });
+export function cancelButtonHandler(event, data = null, config = null) {
+    const currentButton = event.target;
 
-        updater(event, data);
-        changeEditableityOfNodes(childrens, false);
+    Swal.fire({
+        title: 'Your changes have been cancelled \n \n Edit mode for this row DISABLED! \n Please click Update button again for Enable',
+        icon: 'warning',
+    })
 
-        event.target.removeEventListener("click", saver);
-        event.target.addEventListener("click", starter);
+    const currentCell = currentButton.parentNode;
+    const currentCellChildrens = Array.from(currentCell.children);
+    const currentRow = currentButton.parentNode.parentNode;
+    const childrensOfCurrentRow = currentRow.children;
+
+    canceller(event, data, config);
+
+    changeEditableityOfNodes(childrensOfCurrentRow, false);
+
+    for (let button of currentCellChildrens) {
+        button.hidden = !button.hidden;
     }
-
-    function canceller() {
-        Swal.fire({
-            title: 'Your changes have been cancelled \n \n Edit mode for this row DISABLED! \n \n Please click Ubdate button again for enable',
-            icon: 'warning',
-        });
-
-        let index = 0;
-        for (let child of childrens) {
-            if (child.editable) {
-                child.textContent = contents[index];
-                child.setAttribute("contenteditable", "false");
-                ++index;
-            }
-        }
-
-        event.target.textContent = updateButtonFormerName;
-        cancelButton.textContent = cancelButtonFormerName;
-
-        event.target.removeEventListener("click", saver);
-        event.target.addEventListener("click", starter);
-
-        cancelButton.removeEventListener("click", canceller);
-        cancelButton.addEventListener("click", cancelButtonFormerListener);
-    }
-
-    event.target.addEventListener("click", starter);
-    starter();
 }

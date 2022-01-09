@@ -21,13 +21,8 @@ export function getRandomInt(min = 100, max = 100000) {
 
 export function changeEditableityOfNodes(childrens, editable) {
     for (let child of childrens) {
-        if (child.editable) {
-            if (editable) {
-                child.setAttribute("contenteditable", "true");
-            } else {
-                child.setAttribute("contenteditable", "false");
-            }
-
+        if (child.ariaReadOnly != "true") {
+            child.setAttribute("contenteditable", `${editable}`);
         }
     }
 }
