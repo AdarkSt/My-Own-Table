@@ -2,7 +2,8 @@ import { removeAllChildNodes } from "./helpers.js";
 import { tableRendrer } from "./table.js";
 
 export function objectChangeHandle(object, config, table, data) {
-    const tableRows = Array.from(table.children);
+    const tableRows = Array.from(table.lastElementChild.children);
+
     for (let row of tableRows) {
         if (row.myId == object.id) {
             removeAllChildNodes(row);
@@ -17,4 +18,5 @@ export function objectChangeHandle(object, config, table, data) {
 export function dataChangeHandle(data, config, main) {
     removeAllChildNodes(main);
     tableRendrer(data, config, main);
+    location.reload();
 }

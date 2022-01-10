@@ -1,3 +1,5 @@
+import { notConvertToNaN } from "./helpers.js";
+
 export const deleter = function(event, data) {
     let index = 0;
     const currentRow = event.target.parentNode.parentNode;
@@ -22,7 +24,19 @@ export const saver = function(event, data) {
         if (currentRow.myId == object.id) {
             for (let child of childrens) {
                 if (object.hasOwnProperty(`${child.memory}`)) {
-                    object[child.memory] = child.textContent;
+                    if (notConvertToNaN(object[child.memory])) {
+                        if (notConvertToNaN(child.textContent)) {
+                            object[child.memory] = child.textContent
+                        } else {
+                            Swal.fire({
+                                title: `Please input only number in this Collumn`,
+                                icon: 'error',
+                            })
+                            object[child.memory] = object[child.memory];
+                        }
+                    } else {
+                        object[child.memory] = child.textContent;
+                    }
                 }
             }
         }

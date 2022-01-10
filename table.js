@@ -16,7 +16,9 @@ export const tableRendrer = function(data = [], config, element) {
     console.log(data);
 
     for (let object of data) {
-        object.id = getRandomInt();
+        if (!object.hasOwnProperty("id")) {
+            object.id = getRandomInt();
+        }
         const currentRow = document.createElement("tr");
         for (let collumn of config) {
             if (index == 0) {

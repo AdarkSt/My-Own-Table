@@ -6,7 +6,6 @@
   const main = document.querySelector(".main");
 
 
-
   const objectChangeListener = {
       set: function(target, property, value) {
           target[property] = value;
@@ -40,11 +39,10 @@
   let myData;
 
   if (sessionStorage.getItem("data")) {
-      myData = dataProxyMaker(JSON.parse(sessionStorage.getItem("data")))
+      myData = dataProxyMaker(JSON.parse(sessionStorage.getItem("data")));
   } else {
-      sessionStorage.setItem("data", JSON.stringify(data))
-      myData = dataProxyMaker(JSON.parse(sessionStorage.getItem("data")))
+      sessionStorage.setItem("data", JSON.stringify(data));
+      myData = dataProxyMaker(JSON.parse(sessionStorage.getItem("data")));
   }
-
 
   const table = tableRendrer(myData, standard, main);

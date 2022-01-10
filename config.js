@@ -44,10 +44,26 @@ const textRender = function(trElement, object = null, data = null) {
     trElement.append(tdElement);
 }
 
+const calcRender = function(trElement, object = null, data = null) {
+    const tdElement = document.createElement("td");
+    tdElement.className = this.collumnClass;
+    tdElement.setAttribute("aria-readonly", "true")
+    trElement.myId = object.id;
+
+    const spanElement = document.createElement("span");
+    spanElement.className += this.innerClass;
+
+    spanElement.textContent = Number(object[this.call1Key]) - Number(object[this.call2Key])
+
+    tdElement.append(spanElement);
+    trElement.append(tdElement);
+}
+
 const iconRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
     tdElement.setAttribute("aria-readonly", "true")
+    trElement.myId = object.id;
 
     const imgElement = document.createElement("img");
     imgElement.className += this.innerClass;
@@ -98,6 +114,31 @@ export const standard = [{
         headerRender: collumnHeaderRender,
     },
     {
+        key: "matches",
+        label: "Matches",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: textRender,
+        headerRender: collumnHeaderRender,
+    },
+    {
+        key: "draw",
+        label: "Draws",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: textRender,
+        headerRender: collumnHeaderRender,
+    },
+    {
+        call1Key: "matches",
+        call2Key: "draw",
+        label: "Advantage",
+        collumnClass: "",
+        innerClass: "",
+        renderMethod: calcRender,
+        headerRender: collumnHeaderRender,
+    },
+    {
         key: "action",
         label: "Action",
         collumnClass: "",
@@ -126,5 +167,4 @@ export const standard = [{
         renderMethod: buttonRender,
         headerRender: collumnHeaderRender,
     },
-
 ]

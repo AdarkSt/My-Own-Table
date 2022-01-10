@@ -26,3 +26,7 @@ export function changeEditableityOfNodes(childrens, editable) {
         }
     }
 }
+
+export function notConvertToNaN(value) {
+    return !Number.isNaN(Number(value));
+}
