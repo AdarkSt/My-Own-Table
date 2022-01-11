@@ -46,7 +46,11 @@ export const saver = function(event, data) {
 
     childrens.forEach(child => {
         if (Object.keys(currentObject).includes(child.getAttribute("memory"))) {
-            currentObject[child.getAttribute("memory")].value = child.textContent;
+            let editableProp = currentObject[child.getAttribute("memory")].editable;
+            currentObject[child.getAttribute("memory")] = {
+                value: child.textContent,
+                editable: editableProp,
+            };
         }
     })
 
