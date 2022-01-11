@@ -32,8 +32,7 @@ const buttonRender = function(trElement, object = null, data = null) {
 const textRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
-
-    if (object.editabls.findIndex(item => item == this.key) != -1) {
+    if (object[this.key].editable) {
         tdElement.setAttribute("aria-readonly", "false");
     } else {
         tdElement.setAttribute("aria-readonly", "true");
@@ -42,7 +41,7 @@ const textRender = function(trElement, object = null, data = null) {
     const spanElement = document.createElement("span", );
     spanElement.className += this.innerClass;
 
-    spanElement.textContent = object[this.key];
+    spanElement.textContent = object[this.key].value;
 
     //creatElement optionsov 
     tdElement.setAttribute("memory", this.key);
@@ -59,7 +58,7 @@ const calcRender = function(trElement, object = null, data = null) {
     const spanElement = document.createElement("span");
     spanElement.className += this.innerClass;
 
-    spanElement.textContent = object[this.call1Key] - object[this.call2Key];
+    spanElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
 
     tdElement.append(spanElement);
     trElement.append(tdElement);

@@ -2,7 +2,6 @@
   import { standard } from "./config.js"
   import { data } from "./data.js"
   import { objectChangeHandle, dataChangeHandle } from "./data_change_handling.js"
-
   const main = document.querySelector(".main");
 
   const objectChangeListener = {
@@ -37,12 +36,13 @@
   }
 
   let myData;
-  //storage issue
+  //sarqelem global storage-ov
   if (localStorage.getItem("data")) {
       myData = dataProxyMaker(JSON.parse(localStorage.getItem("data")));
   } else {
       localStorage.setItem("data", JSON.stringify(data));
       myData = dataProxyMaker(data);
   }
-
+  //table-@ pahumem nra hamar vor karenam datan change aneluc et table-@ tam data change 
+  //handlernerin vor iranq tableis vra popoxutyunner anenn
   const table = tableRendrer(myData, standard, main);

@@ -5,7 +5,6 @@ export let data = [{
         result: "2-3",
         matches: 10,
         draw: 3,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "INTERNATIONAL: Suzuki Cup, Group Stage",
@@ -14,7 +13,6 @@ export let data = [{
         result: "3-3",
         matches: 6,
         draw: 2,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "ENGLAND: Premier League",
@@ -23,7 +21,6 @@ export let data = [{
         result: "0-4",
         matches: 9,
         draw: 1,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "PORTUGAL: Liga Portugal",
@@ -32,7 +29,6 @@ export let data = [{
         result: "1-3",
         matches: 11,
         draw: 5,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "ENGLAND: Premier League",
@@ -41,7 +37,6 @@ export let data = [{
         result: "2-1",
         matches: 4,
         draw: 1,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "ENGLAND: Premier League",
@@ -50,7 +45,6 @@ export let data = [{
         result: "2-0",
         matches: 9,
         draw: 2,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "PORTUGAL: Liga Portugal",
@@ -59,7 +53,6 @@ export let data = [{
         result: "0-0",
         matches: 12,
         draw: 4,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "PORTUGAL: Liga Portugal",
@@ -68,7 +61,6 @@ export let data = [{
         result: "1-2",
         matches: 7,
         draw: 1,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "INDIA: ISL",
@@ -77,7 +69,6 @@ export let data = [{
         result: "2-2",
         matches: 4,
         draw: 0,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "ENGLAND: Premier League",
@@ -86,7 +77,6 @@ export let data = [{
         result: "1-4",
         matches: 8,
         draw: 3,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "BELGIUM: Jupiler Pro League",
@@ -95,7 +85,6 @@ export let data = [{
         result: "0-0",
         matches: 13,
         draw: 5,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "BELGIUM: Jupiler Pro League",
@@ -104,7 +93,6 @@ export let data = [{
         result: "1-1",
         matches: 5,
         draw: 0,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "BELGIUM: Jupiler Pro League",
@@ -113,7 +101,6 @@ export let data = [{
         result: "3-3",
         matches: 11,
         draw: 2,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "BELGIUM: Jupiler Pro League",
@@ -122,7 +109,6 @@ export let data = [{
         result: "3-1",
         matches: 10,
         draw: 2,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
     {
         league: "ENGLAND: Championship",
@@ -131,10 +117,16 @@ export let data = [{
         result: "2-1",
         matches: 8,
         draw: 4,
-        editabls: ["league", 'date', "teams", "result", "matches", "draw"],
     },
 ];
 
 
-
-//editable-i paha dataic
+data.forEach(item => {
+    for (let key of Object.keys(item)) {
+        let myVal = item[key];
+        item[key] = {
+            value: myVal,
+            editable: true,
+        }
+    }
+})
