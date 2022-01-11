@@ -1,4 +1,5 @@
 import { deleteButtonHandler, updateButtonHandler, saveButtonHandler, cancelButtonHandler } from "./table_handlers.js"
+import { removeAllChildNodes } from "./helpers.js"
 
 const collumnHeaderRender = function(trElement, merge = 0) {
     const thElement = document.createElement("th");
@@ -17,7 +18,7 @@ const buttonRender = function(trElement, object = null, data = null) {
 
         buttonElement.className = "btn btn-outline-secondary btn-sm btn-block "
         buttonElement.textContent = button.name;
-        buttonElement.handler = button.handleId;
+
         buttonElement.addEventListener("click", (event) => {
             button.handleMethod(event, data, standard);
         })
@@ -31,29 +32,34 @@ const buttonRender = function(trElement, object = null, data = null) {
 const textRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
-    tdElement.setAttribute("aria-readonly", "false")
 
-    const spanElement = document.createElement("span");
+    if (object.editabls.findIndex(item => item == this.key) != -1) {
+        tdElement.setAttribute("aria-readonly", "false");
+    } else {
+        tdElement.setAttribute("aria-readonly", "true");
+    }
+
+    const spanElement = document.createElement("span", );
     spanElement.className += this.innerClass;
 
     spanElement.textContent = object[this.key];
 
-    tdElement.memory = this.key;
-    trElement.myId = object.id;
+    //creatElement optionsov 
+    tdElement.setAttribute("memory", this.key);
     tdElement.append(spanElement);
     trElement.append(tdElement);
 }
 
 const calcRender = function(trElement, object = null, data = null) {
-    const tdElement = document.createElement("td");
+    const tdElement = document.createElement("td", {});
     tdElement.className = this.collumnClass;
-    tdElement.setAttribute("aria-readonly", "true")
-    trElement.myId = object.id;
+    tdElement.setAttribute("aria-readonly", "true");
+
 
     const spanElement = document.createElement("span");
     spanElement.className += this.innerClass;
 
-    spanElement.textContent = Number(object[this.call1Key]) - Number(object[this.call2Key])
+    spanElement.textContent = object[this.call1Key] - object[this.call2Key];
 
     tdElement.append(spanElement);
     trElement.append(tdElement);
@@ -63,7 +69,6 @@ const iconRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
     tdElement.setAttribute("aria-readonly", "true")
-    trElement.myId = object.id;
 
     const imgElement = document.createElement("img");
     imgElement.className += this.innerClass;
@@ -132,6 +137,7 @@ export const standard = [{
     {
         call1Key: "matches",
         call2Key: "draw",
+        key: "advantage",
         label: "Advantage",
         collumnClass: "",
         innerClass: "",

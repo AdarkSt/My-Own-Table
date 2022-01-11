@@ -1,66 +1,37 @@
-import { notConvertToNaN } from "./helpers.js";
+import { notConvertToNaN, removeAllChildNodes } from "./helpers.js";
+
 
 export const deleter = function(event, data) {
-    let index = 0;
     const currentRow = event.target.parentNode.parentNode;
 
-    for (let object of data) {
-        if (object.id == currentRow.myId) {
-            data.splice(index, 1);
-            break;
-        }
-        index++
-    }
-    console.log(data);
-    sessionStorage.setItem("data", JSON.stringify(data));
-    return data;
+    const currentObjectIndex = data.findIndex(item => item.id == Number(currentRow.getAttribute("myId")));
+    data.splice(currentObjectIndex, 1)
+
+    localStorage.setItem("data", JSON.stringify(data));
 }
 
 export const saver = function(event, data) {
     const currentRow = event.target.parentNode.parentNode;
     const childrens = Array.from(currentRow.children);
 
-    for (let object of data) {
-        if (currentRow.myId == object.id) {
-            for (let child of childrens) {
-                if (object.hasOwnProperty(`${child.memory}`)) {
-                    if (notConvertToNaN(object[child.memory])) {
-                        if (notConvertToNaN(child.textContent)) {
-                            object[child.memory] = child.textContent
-                        } else {
-                            Swal.fire({
-                                title: `Please input only number in this Collumn`,
-                                icon: 'error',
-                            })
-                            object[child.memory] = object[child.memory];
-                        }
-                    } else {
-                        object[child.memory] = child.textContent;
-                    }
-                }
-            }
+    const currentObject = data.find(item => item.id == Number(currentRow.getAttribute("myId")));
+
+    childrens.forEach(child => {
+        if (Object.keys(currentObject).includes(child.getAttribute("memory"))) {
+            currentObject[child.getAttribute("memory")] = child.textContent;
         }
-    }
-    sessionStorage.setItem("data", JSON.stringify(data));
-    return data;
+    })
+
+    localStorage.setItem("data", JSON.stringify(data));
 }
 
 export const canceller = function(event, data, config) {
     const currentRow = event.target.parentNode.parentNode;
-    const table = currentRow.parentNode.parentNode;
-    currentRow.remove();
+    removeAllChildNodes(currentRow);
 
-    let index = 1;
-    for (let obj of data) {
-        if (currentRow.myId == obj.id) {
-            const newRow = table.insertRow(index);
-            for (let collumn of config) {
-                collumn.renderMethod(newRow, obj, data);
-            }
-            break;
-        }
-        ++index;
+    const currentObject = data.find(item => item.id == Number(currentRow.getAttribute("myId")));
+
+    for (let collumn of config) {
+        collumn.renderMethod(currentRow, currentObject, data);
     }
-
-
 }

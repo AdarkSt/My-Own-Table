@@ -5,7 +5,6 @@
 
   const main = document.querySelector(".main");
 
-
   const objectChangeListener = {
       set: function(target, property, value) {
           target[property] = value;
@@ -13,18 +12,19 @@
               objectChangeHandle(target, standard, table, myData);
           }
           return true;
-      }
+      },
   }
 
   const dataChangeListener = {
       set: function(target, property, value) {
           target[property] = value;
           if (property == "length") {
-              dataChangeHandle(myData, standard, main);
+              dataChangeHandle(myData, standard, table);
           }
           return true;
       }
   };
+  //mi hat listener callbackerov
 
   function dataProxyMaker(data) {
       const dataOfProxyObj = []
@@ -37,12 +37,12 @@
   }
 
   let myData;
-
-  if (sessionStorage.getItem("data")) {
-      myData = dataProxyMaker(JSON.parse(sessionStorage.getItem("data")));
+  //storage issue
+  if (localStorage.getItem("data")) {
+      myData = dataProxyMaker(JSON.parse(localStorage.getItem("data")));
   } else {
-      sessionStorage.setItem("data", JSON.stringify(data));
-      myData = dataProxyMaker(JSON.parse(sessionStorage.getItem("data")));
+      localStorage.setItem("data", JSON.stringify(data));
+      myData = dataProxyMaker(data);
   }
 
   const table = tableRendrer(myData, standard, main);

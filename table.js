@@ -19,7 +19,10 @@ export const tableRendrer = function(data = [], config, element) {
         if (!object.hasOwnProperty("id")) {
             object.id = getRandomInt();
         }
+
         const currentRow = document.createElement("tr");
+        currentRow.setAttribute("myId", object.id);
+
         for (let collumn of config) {
             if (index == 0) {
                 collumn.headerRender(headerRow);
