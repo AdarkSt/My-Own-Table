@@ -1,7 +1,9 @@
-import { deleter, saver, canceller } from "./data_manipulations.js"
-import { changeEditableityOfNodes } from "./helpers.js";
+import { deleter, saver, canceller, updater } from "./data_manipulations.js"
+import { changeEditableityOfNodes, cloneDeep } from "./helpers.js";
 
-export function deleteButtonHandler(event, data = null, config = null) {
+const clones = [];
+
+export function deleteButtonHandler(event, data = null) {
     Swal.fire({
         title: 'Do you really want to delete this row?',
         icon: 'question',
@@ -16,9 +18,7 @@ export function deleteButtonHandler(event, data = null, config = null) {
             Swal.fire('Cancelled')
         }
     })
-
 }
-
 
 export function updateButtonHandler(event, data = null, config = null) {
     const currentButton = event.target;
@@ -33,9 +33,16 @@ export function updateButtonHandler(event, data = null, config = null) {
     const currentRow = currentButton.parentNode.parentNode;
     const childrensOfCurrentRow = currentRow.children;
 
+    const currentObject = data.find(item => item.id.value == Number(currentRow.getAttribute("myId")));
+
+    const cloneOfCurrentObject = cloneDeep({}, currentObject)
+
+    updater(currentRow, cloneOfCurrentObject);
+    clones.push(cloneOfCurrentObject);
+
     changeEditableityOfNodes(childrensOfCurrentRow, true);
 
-    for (let button of currentCellChildrens) {
+    for (const button of currentCellChildrens) {
         button.hidden = !button.hidden;
     }
 }
@@ -53,11 +60,13 @@ export function saveButtonHandler(event, data = null, config = null) {
     const currentRow = currentButton.parentNode.parentNode;
     const childrensOfCurrentRow = currentRow.children;
 
-    saver(event, data);
+    const wantedObject = clones.find(item => item.id.value == Number(currentRow.getAttribute("myId")));
+
+    saver(event, data, wantedObject);
 
     changeEditableityOfNodes(childrensOfCurrentRow, false);
 
-    for (let button of currentCellChildrens) {
+    for (const button of currentCellChildrens) {
         button.hidden = !button.hidden;
     }
 }
@@ -79,7 +88,7 @@ export function cancelButtonHandler(event, data = null, config = null) {
 
     changeEditableityOfNodes(childrensOfCurrentRow, false);
 
-    for (let button of currentCellChildrens) {
+    for (const button of currentCellChildrens) {
         button.hidden = !button.hidden;
     }
 }

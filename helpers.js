@@ -23,8 +23,24 @@ export function changeEditableityOfNodes(childrens, editable) {
     for (let child of childrens) {
         if (child.ariaReadOnly != "true") {
             child.setAttribute("contenteditable", `${editable}`);
+            if (editable) {
+                child.classList.add("table-warning", "border", "border-secondary");
+            } else {
+                child.classList.remove("table-warning", "border", "border-secondary")
+            }
         }
     }
+}
+
+export function cloneDeep(cloneObject, object) {
+    for (let key in object) {
+        if (object[key].constructor != Object) {
+            cloneObject[key] = object[key];
+        } else {
+            cloneObject[key] = cloneDeep({}, object[key]);
+        }
+    }
+    return cloneObject;
 }
 
 export function notConvertToNaN(value) {

@@ -1,4 +1,5 @@
 export let data = [{
+        id: 81699,
         league: "QATAR: Stars League",
         date: "2021-12-29",
         teams: "Al Shamal - Al Rayyan SC",
@@ -7,6 +8,7 @@ export let data = [{
         draw: 3,
     },
     {
+        id: 5562,
         league: "INTERNATIONAL: Suzuki Cup, Group Stage",
         date: "2021-12-29",
         teams: "Indonesia - Thailand",
@@ -15,6 +17,7 @@ export let data = [{
         draw: 2,
     },
     {
+        id: 21806,
         league: "ENGLAND: Premier League",
         date: "2021-12-28",
         teams: "Leicester City - Liverpool",
@@ -23,6 +26,7 @@ export let data = [{
         draw: 1,
     },
     {
+        id: 72019,
         league: "PORTUGAL: Liga Portugal",
         date: "2021-12-28",
         teams: "Moreirense - Estoril",
@@ -31,6 +35,7 @@ export let data = [{
         draw: 5,
     },
     {
+        id: 40049,
         league: "ENGLAND: Premier League",
         date: "2021-12-28",
         teams: "Crystal Palace - Norwich City",
@@ -39,6 +44,7 @@ export let data = [{
         draw: 1,
     },
     {
+        id: 30563,
         league: "ENGLAND: Premier League",
         date: "2021-12-28",
         teams: "Watford - West Ham United",
@@ -47,6 +53,7 @@ export let data = [{
         draw: 2,
     },
     {
+        id: 92525,
         league: "PORTUGAL: Liga Portugal",
         date: "2021-12-28",
         teams: "Maritimo - Vizela",
@@ -55,6 +62,7 @@ export let data = [{
         draw: 4,
     },
     {
+        id: 30926,
         league: "PORTUGAL: Liga Portugal",
         date: "2021-12-28",
         teams: "Tondela - Gil Vicente",
@@ -63,6 +71,7 @@ export let data = [{
         draw: 1,
     },
     {
+        id: 62892,
         league: "INDIA: ISL",
         date: "2021-12-28",
         teams: "Hyderabad - Odisha",
@@ -71,6 +80,7 @@ export let data = [{
         draw: 0,
     },
     {
+        id: 19651,
         league: "ENGLAND: Premier League",
         date: "2021-12-28",
         teams: "Newcastle United - Manchester United",
@@ -79,6 +89,7 @@ export let data = [{
         draw: 3,
     },
     {
+        id: 15278,
         league: "BELGIUM: Jupiler Pro League",
         date: "2021-12-27",
         teams: "Charleroi - Oud-Heverlee",
@@ -87,6 +98,7 @@ export let data = [{
         draw: 5,
     },
     {
+        id: 4561,
         league: "BELGIUM: Jupiler Pro League",
         date: "2021-12-27",
         teams: "Mechelen - RFC Seraing",
@@ -95,6 +107,7 @@ export let data = [{
         draw: 0,
     },
     {
+        id: 69351,
         league: "BELGIUM: Jupiler Pro League",
         date: "2021-12-27",
         teams: "Beerschot-Wilrijk - Anderlecht",
@@ -103,6 +116,7 @@ export let data = [{
         draw: 2,
     },
     {
+        id: 40342,
         league: "BELGIUM: Jupiler Pro League",
         date: "2021-12-27",
         teams: "Sint-Truiden - Eupen",
@@ -111,6 +125,7 @@ export let data = [{
         draw: 2,
     },
     {
+        id: 91992,
         league: "ENGLAND: Championship",
         date: "2021-12-27",
         teams: "QPR - Bournemouth",
@@ -123,10 +138,29 @@ export let data = [{
 
 data.forEach(item => {
     for (let key of Object.keys(item)) {
-        let myVal = item[key];
-        item[key] = {
-            value: myVal,
-            editable: true,
+        const myVal = item[key];
+        if (key != "id") {
+            item[key] = {
+                value: myVal,
+                editable: true,
+            }
+        } else {
+            item[key] = {
+                value: myVal,
+                editable: false,
+            }
         }
     }
 })
+
+// for (let mutation of MutationRecord) {
+//     for (let key of Object.keys(cloneOfCurrentObject)) {
+//         if (`${cloneOfCurrentObject[key].value}` == mutation.oldValue) {
+//             const editablity = cloneOfCurrentObject[key].editable
+//             cloneOfCurrentObject[key] = {
+//                 value: MutationRecord[0].target.textContent,
+//                 editable: editablity,
+//             }
+//         }
+//     }
+// }

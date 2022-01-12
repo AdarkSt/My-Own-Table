@@ -38,14 +38,8 @@ const textRender = function(trElement, object = null, data = null) {
         tdElement.setAttribute("aria-readonly", "true");
     }
 
-    const spanElement = document.createElement("span", );
-    spanElement.className += this.innerClass;
+    tdElement.textContent = object[this.key].value;
 
-    spanElement.textContent = object[this.key].value;
-
-    //creatElement optionsov 
-    tdElement.setAttribute("memory", this.key);
-    tdElement.append(spanElement);
     trElement.append(tdElement);
 }
 
@@ -54,13 +48,8 @@ const calcRender = function(trElement, object = null, data = null) {
     tdElement.className = this.collumnClass;
     tdElement.setAttribute("aria-readonly", "true");
 
+    tdElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
 
-    const spanElement = document.createElement("span");
-    spanElement.className += this.innerClass;
-
-    spanElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
-
-    tdElement.append(spanElement);
     trElement.append(tdElement);
 }
 

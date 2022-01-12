@@ -11,17 +11,14 @@ export const tableRendrer = function(data = [], config, element) {
     table.append(tbody);
 
     let index = 0;
-    let headerRow = document.createElement("tr");
+    const headerRow = document.createElement("tr");
     thead.append(headerRow)
     console.log(data);
 
     for (let object of data) {
-        if (!object.hasOwnProperty("id")) {
-            object.id = getRandomInt();
-        }
 
         const currentRow = document.createElement("tr");
-        currentRow.setAttribute("myId", object.id);
+        currentRow.setAttribute("myId", object.id.value);
 
         for (let collumn of config) {
             if (index == 0) {
