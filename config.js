@@ -1,7 +1,6 @@
 import { deleteButtonHandler, updateButtonHandler, saveButtonHandler, cancelButtonHandler } from "./table_handlers.js"
-import { removeAllChildNodes } from "./helpers.js"
 
-const collumnHeaderRender = function(trElement, merge = 0) {
+const collumnHeaderRender = function(trElement) {
     const thElement = document.createElement("th");
     thElement.textContent = this.label;
     trElement.append(thElement);
@@ -20,7 +19,8 @@ const buttonRender = function(trElement, object = null, data = null) {
         buttonElement.textContent = button.name;
 
         buttonElement.addEventListener("click", (event) => {
-            button.handleMethod(event, data, standard);
+            const currentButton = event.target;
+            button.handleMethod(currentButton, data, collumnsInRow);
         })
 
         tdElement.append(buttonElement)
@@ -32,13 +32,13 @@ const buttonRender = function(trElement, object = null, data = null) {
 const textRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
+    tdElement.textContent = object[this.key].value;
+
     if (object[this.key].editable) {
         tdElement.setAttribute("aria-readonly", "false");
     } else {
         tdElement.setAttribute("aria-readonly", "true");
     }
-
-    tdElement.textContent = object[this.key].value;
 
     trElement.append(tdElement);
 }
@@ -46,9 +46,9 @@ const textRender = function(trElement, object = null, data = null) {
 const calcRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td", {});
     tdElement.className = this.collumnClass;
-    tdElement.setAttribute("aria-readonly", "true");
-
     tdElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
+
+    tdElement.setAttribute("aria-readonly", "true");
 
     trElement.append(tdElement);
 }
@@ -66,7 +66,7 @@ const iconRender = function(trElement, object = null, data = null) {
     trElement.append(tdElement);
 }
 
-export const standard = [{
+export const collumnsInRow = [{
         key: "league",
         label: "League",
         collumnClass: "",

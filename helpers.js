@@ -20,7 +20,7 @@ export function getRandomInt(min = 100, max = 100000) {
 }
 
 export function changeEditableityOfNodes(childrens, editable) {
-    for (let child of childrens) {
+    for (const child of childrens) {
         if (child.ariaReadOnly != "true") {
             child.setAttribute("contenteditable", `${editable}`);
             if (editable) {
@@ -33,7 +33,7 @@ export function changeEditableityOfNodes(childrens, editable) {
 }
 
 export function cloneDeep(cloneObject, object) {
-    for (let key in object) {
+    for (const key in object) {
         if (object[key].constructor != Object) {
             cloneObject[key] = object[key];
         } else {
@@ -45,4 +45,9 @@ export function cloneDeep(cloneObject, object) {
 
 export function notConvertToNaN(value) {
     return !Number.isNaN(Number(value));
+}
+
+export function dataProxyMaker(data, listener) {
+    const proxyOfData = new Proxy(data, listener);
+    return proxyOfData;
 }

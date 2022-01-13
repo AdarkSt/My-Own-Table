@@ -1,4 +1,4 @@
-export let data = [{
+export const data = [{
         id: 81699,
         league: "QATAR: Stars League",
         date: "2021-12-29",
@@ -137,7 +137,7 @@ export let data = [{
 
 
 data.forEach(item => {
-    for (let key of Object.keys(item)) {
+    for (const key of Object.keys(item)) {
         const myVal = item[key];
         if (key != "id") {
             item[key] = {
@@ -152,15 +152,3 @@ data.forEach(item => {
         }
     }
 })
-
-// for (let mutation of MutationRecord) {
-//     for (let key of Object.keys(cloneOfCurrentObject)) {
-//         if (`${cloneOfCurrentObject[key].value}` == mutation.oldValue) {
-//             const editablity = cloneOfCurrentObject[key].editable
-//             cloneOfCurrentObject[key] = {
-//                 value: MutationRecord[0].target.textContent,
-//                 editable: editablity,
-//             }
-//         }
-//     }
-// }

@@ -1,9 +1,7 @@
 import { removeAllChildNodes } from "./helpers.js";
 
-export const deleter = function(event, data) {
-    const currentRow = event.target.parentNode.parentNode;
-
-    const currentObjectIndex = data.findIndex(item => item.id.value == Number(currentRow.getAttribute("myId")));
+export const deleter = function(currentRowId, data) {
+    const currentObjectIndex = data.findIndex(item => item.id.value == Number(currentRowId));
     data.splice(currentObjectIndex, 1)
 
     localStorage.setItem("data", JSON.stringify(data));
@@ -11,41 +9,39 @@ export const deleter = function(event, data) {
 
 export const updater = function(currentRow, cloneOfCurrentObject) {
 
-    const observer = new MutationObserver((MutationRecord, observer) => {
+    const observer = new MutationObserver((MutationRecord) => {
         for (const key of Object.keys(cloneOfCurrentObject)) {
             if (MutationRecord.findIndex(item => item.oldValue == `${cloneOfCurrentObject[key].value}`) > -1) {
-                const editablity = cloneOfCurrentObject[key].editable
-
                 cloneOfCurrentObject[key] = {
                     value: MutationRecord[0].target.textContent,
-                    editable: editablity,
+                    editable: cloneOfCurrentObject[key].editable,
                 }
             }
         }
     });
+
     observer.observe(currentRow, {
         subtree: true,
         childList: true,
         characterDataOldValue: true,
         characterData: true
     });
+    return observer;
 }
 
-export const saver = function(event, data, cloneOfCurrentObject) {
-
-    const changableObjectIndex = data.findIndex(item => item.id.value == cloneOfCurrentObject.id.value);
-    data[changableObjectIndex] = cloneOfCurrentObject;
-
+export const saver = function(data, cloneOfCurrentObject) {
+    const changableObjectIndex = data.findIndex(item => item.id.value == cloneOfCurrentObject.clone.id.value);
+    cloneOfCurrentObject.cloneObserver.disconnect();
+    data[changableObjectIndex] = cloneOfCurrentObject.clone;
     localStorage.setItem("data", JSON.stringify(data));
 }
 
-export const canceller = function(event, data, config) {
-    const currentRow = event.target.parentNode.parentNode;
+export const canceller = function(currentRow, data, collumnsInRow) {
+    const currentRowId = currentRow.getAttribute("myId");
+    const currentObject = data.find(item => item.id.value == Number(currentRowId));
     removeAllChildNodes(currentRow);
 
-    const currentObject = data.find(item => item.id.value == Number(currentRow.getAttribute("myId")));
-
-    for (let collumn of config) {
+    for (const collumn of collumnsInRow) {
         collumn.renderMethod(currentRow, currentObject, data);
     }
 }

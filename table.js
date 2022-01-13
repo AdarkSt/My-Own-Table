@@ -1,7 +1,4 @@
-import { getRandomInt } from "./helpers.js";
-
-
-export const tableRendrer = function(data = [], config, element) {
+export const tableRendrer = function(data = [], collumnsInRow, element) {
     const table = document.createElement("table");
     table.className = "my-table-style table table-dark table-striped table-bordered table-hover table-responsive blockquote text-center"
 
@@ -13,14 +10,13 @@ export const tableRendrer = function(data = [], config, element) {
     let index = 0;
     const headerRow = document.createElement("tr");
     thead.append(headerRow)
-    console.log(data);
 
-    for (let object of data) {
+    for (const object of data) {
 
         const currentRow = document.createElement("tr");
         currentRow.setAttribute("myId", object.id.value);
 
-        for (let collumn of config) {
+        for (const collumn of collumnsInRow) {
             if (index == 0) {
                 collumn.headerRender(headerRow);
             }
