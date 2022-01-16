@@ -1,15 +1,25 @@
-import { deleteButtonHandler, updateButtonHandler, saveButtonHandler, cancelButtonHandler } from "./table_handlers.js"
+import { deleteButtonListener, updateButtonListener, saveButtonListener, cancelButtonListener } from "./table_buttons_listeners.js"
 
+/**
+ * *collumnHeaderRender method should render table header collumns in row
+ * @param {*} trElement //row element wher must fit collumns
+ */
 const collumnHeaderRender = function(trElement) {
     const thElement = document.createElement("th");
     thElement.textContent = this.label;
     trElement.append(thElement);
 }
 
+/**
+ * *buttonRender method should render collumn with buttons 
+ * @param {*} trElement //row element wher must fit collumn
+ * @param {*} [object=null] //?this parametr is excess
+ * @param {*} [data=null] //data which should manipulate buttons in that collumn
+ */
 const buttonRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
-    tdElement.setAttribute("aria-readonly", "true");
+    tdElement.setAttribute("readonly", "true");
 
     for (let button of this.inner) {
         const buttonElement = document.createElement("button");
@@ -29,34 +39,51 @@ const buttonRender = function(trElement, object = null, data = null) {
     trElement.append(tdElement);
 }
 
-const textRender = function(trElement, object = null, data = null) {
+/**
+ * *textRender methood should render collumn with text 
+ * @param {*} trElement //row element wher must fit collumn
+ * @param {*} [object=null] //object from data which content must be in current row
+ */
+const textRender = function(trElement, object = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
     tdElement.textContent = object[this.key].value;
 
     if (object[this.key].editable) {
-        tdElement.setAttribute("aria-readonly", "false");
+        tdElement.setAttribute("readonly", "false");
     } else {
-        tdElement.setAttribute("aria-readonly", "true");
+        tdElement.setAttribute("readonly", "true");
     }
 
     trElement.append(tdElement);
 }
 
-const calcRender = function(trElement, object = null, data = null) {
+
+
+/**
+ * *calcRender method should render collumn with calculation other collumns values 
+ * @param {*} trElement //row element wher must fit collumn
+ * @param {*} [object=null] //object from data which content must be in current row
+ */
+const calcRender = function(trElement, object = null) {
     const tdElement = document.createElement("td", {});
     tdElement.className = this.collumnClass;
     tdElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
 
-    tdElement.setAttribute("aria-readonly", "true");
+    tdElement.setAttribute("readonly", "true");
 
     trElement.append(tdElement);
 }
 
-const iconRender = function(trElement, object = null, data = null) {
+/**
+ * *iconRender method should render collumn with image 
+ * @param {*} trElement //row element wher must fit collumn
+ * @param {*} [object=null] //object from data which content must be in current row
+ */
+const iconRender = function(trElement, object = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
-    tdElement.setAttribute("aria-readonly", "true")
+    tdElement.setAttribute("readonly", "true")
 
     const imgElement = document.createElement("img");
     imgElement.className += this.innerClass;
@@ -140,22 +167,22 @@ export const collumnsInRow = [{
         inner: [{
                 name: "Update",
                 hidden: false,
-                handleMethod: updateButtonHandler,
+                handleMethod: updateButtonListener,
             },
             {
                 name: "Save",
                 hidden: true,
-                handleMethod: saveButtonHandler,
+                handleMethod: saveButtonListener,
             },
             {
                 name: "Delete",
                 hidden: false,
-                handleMethod: deleteButtonHandler,
+                handleMethod: deleteButtonListener,
             },
             {
                 name: "Cancel",
                 hidden: true,
-                handleMethod: cancelButtonHandler,
+                handleMethod: cancelButtonListener,
             }
         ],
         renderMethod: buttonRender,
