@@ -1,5 +1,5 @@
-import { tableRendrer } from "./table.js";
-import { collumnsInRow } from "./config.js"
+import { tableRender } from "./table.js";
+import { standardCollumnsInRow } from "./config.js"
 import { data } from "./data.js"
 import { dataInnerObjectChangeHandle, dataChangeHandle } from "./data_change_handling.js"
 import { dataProxyMaker } from "./helpers.js"
@@ -18,7 +18,7 @@ const dataChangeListener = {
         if (property == "length") {
             dataChangeHandle(myData, table);
         } else {
-            dataInnerObjectChangeHandle(value, collumnsInRow, table, myData);
+            dataInnerObjectChangeHandle(value, standardCollumnsInRow, table, myData);
         }
         return true;
     }
@@ -33,4 +33,4 @@ if (localStorage.getItem("data")) {
     myData = dataProxyMaker(data, dataChangeListener);
 }
 
-const table = tableRendrer(myData, collumnsInRow, main);
+const table = tableRender(myData, standardCollumnsInRow, main);

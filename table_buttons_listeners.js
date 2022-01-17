@@ -5,11 +5,10 @@ const clones = [];
 
 /**
  * *deleteButtonListener metod should listen click event in table Delete button
- * @method deleteButtonListener is calling @method deleteHandler method for handling click event
+ * @method deleteButtonListener is calling @method deleteHandler for handling click event
  * @export
- * @param {*} currentButton // button element target of event
- * @param {*} [data=null] // data which should manipulated by button
- * this methot attached to button in @method buttonRender method config.js, and sets as a @method handleMethod in @method collumnsInRow object
+ * @param {HTMLElement} currentButton // button element target of event
+ * @param {Array} [data=null] // data which should manipulated by button
  */
 export function deleteButtonListener(currentButton, data = null) {
     const currentRowId = currentButton.parentNode.parentNode.getAttribute("myId");
@@ -31,11 +30,10 @@ export function deleteButtonListener(currentButton, data = null) {
 
 /**
  * *updateButtonListener metod should listen click event in table Update button
- * @method updateButtonListener is calling @method updateHandler method for handling click event
+ * @method updateButtonListener is calling @method updateHandler for handling click event
  * @export
- * @param {*} currentButton // button element target of event
- * @param {*} [data=null] // data which should manipulated by button
- * this methot attached to button in @method buttonRender method config.js, and sets as a @method handleMethod in @method collumnsInRow object
+ * @param {HTMLElement} currentButton // button element target of event
+ * @param {Array} [data=null] // data which should manipulated by button
  */
 export function updateButtonListener(currentButton, data = null) {
     const currentCell = currentButton.parentNode;
@@ -64,11 +62,10 @@ export function updateButtonListener(currentButton, data = null) {
 
 /**
  * *saveButtonListener metod should listen click event in table Save button
- * @method saveButtonListener is calling @method saveHandler method for handling click event
+ * @method saveButtonListener is calling @method saveHandler for handling click event
  * @export 
- * @param {*} currentButton // button element target of event
- * @param {*} [data=null] // data which should manipulated by button
- * this methot attached to button in @method buttonRender method config.js, and sets as a @method handleMethod in @method collumnsInRow object
+ * @param {HTMLElement} currentButton // button element target of event
+ * @param {Array} [data=null] // data which should manipulated by button
  */
 export function saveButtonListener(currentButton, data = null) {
     const currentRowId = currentButton.parentNode.parentNode.getAttribute("myId");
@@ -85,14 +82,13 @@ export function saveButtonListener(currentButton, data = null) {
 
 /**
  * *cancelButtonListener metod should listen click event in table Save button
- * @method cancelButtonListener is calling @method cancelHandler method for handling click event
+ * @method cancelButtonListener is calling @method cancelHandler for handling click event
  * @export
- * @param {*} currentButton // button element target of event
- * @param {*} [data=null] // data which should manipulated by button
- * @param {*} [collumnsInRow=null] // collumns in row which should rerendered by @method cancelHandler
- * this methot attached to button in @method buttonRender method config.js, and sets as a @method handleMethod in @method collumnsInRow object
+ * @param {HTMLElement} currentButton // button element target of event
+ * @param {Array} [data=null] // data which should manipulated by button
+ * @param {Object} [standardCollumnsInRow=null] // collumns in row which should rerendered by @method cancelHandler
  */
-export function cancelButtonListener(currentButton, data = null, collumnsInRow = null) {
+export function cancelButtonListener(currentButton, data = null, standardCollumnsInRow = null) {
     const currentRow = currentButton.parentNode.parentNode;
 
     Swal.fire({
@@ -100,5 +96,5 @@ export function cancelButtonListener(currentButton, data = null, collumnsInRow =
         icon: 'warning',
     })
 
-    cancelHandler(currentRow, data, collumnsInRow);
+    cancelHandler(currentRow, data, standardCollumnsInRow);
 }

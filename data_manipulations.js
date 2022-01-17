@@ -2,10 +2,10 @@ import { removeAllChildNodes } from "./helpers.js";
 
 /**
  * *deleteHandler method should handle click event in table Delete button
- * @method deleteHandler is delete object from data and set data in localStorage
+ * delete object from data and set data in localStorage
  * @export 
  * @param {*} currentRowId // row id which corresponds to deletable object id
- * @param {*} [data=null] // data from where should deleted object
+ * @param {Array} [data=null] // data from where should deleted object
  */
 export const deleteHandler = function(currentRowId, data = null) {
     const currentObjectIndex = data.findIndex(item => item.id.value == Number(currentRowId));
@@ -17,10 +17,10 @@ export const deleteHandler = function(currentRowId, data = null) {
 
 /**
  * *updateHandler method should handle click event in table Update button
- * @method updateHandler creates a subscriber(observer) for listening changes in @param currentRow and sets this changes in @param cloneOfCurrentObject
+ * create a subscriber(observer) for listening changes and sets this changes in @param cloneOfCurrentObject
  * @export 
- * @param {*} currentRow //row which shold be updated
- * @param {*} cloneOfCurrentObject // clone of @param currentRow corresponds object
+ * @param {HTMLElement} currentRow //row which shold be updated
+ * @param {Object} cloneOfCurrentObject // clone of @param currentRow corresponds object
  */
 export const updateHandler = function(currentRow, cloneOfCurrentObject) {
 
@@ -46,32 +46,33 @@ export const updateHandler = function(currentRow, cloneOfCurrentObject) {
 
 /**
  * *saveHandler method should handle click event in table Save button
- * @method saveHandler findes changableObject in data and replace that with @param substituteObject, and diconnect subsriber(observer)
+ * findes changableObject in data and replace that, diconnect subscriber(observer)
  * @export 
- * @param {*} data //data from where should replaced changableObject
- * @param {*} substituteObject // substitute object which replace changable object 
+ * @param {Array} data //data from where should replaced changableObject
+ * @param {Object} substituteObject // substitute object which replace changable object 
  */
 export const saveHandler = function(data, substituteObject) {
     const changableObjectIndex = data.findIndex(item => item.id.value == substituteObject.clone.id.value);
     substituteObject.cloneObserver.disconnect();
     data[changableObjectIndex] = substituteObject.clone;
+
     localStorage.setItem("data", JSON.stringify(data));
 }
 
 /**
  * *cancelHandler method should handle click event in table Cancel button
- * @method cancelHandler removes @param currentRow childes and renders collumns in that with old data
+ * removes @param currentRow childes and render collumns in that with old data
  * @export 
- * @param {*} currentRow //row which cancell button is clicked
- * @param {*} data //data which must be used for cancelling changes in row
- * @param {*} collumnsInRow //standard which used for rendering new collumns in row 
+ * @param {HTMLElement} currentRow //row which cancell button is clicked
+ * @param {Array} data //data which must be used for cancelling changes in row
+ * @param {Object} standardCollumnsInRow //standard which used for rendering new collumns in row 
  */
-export const cancelHandler = function(currentRow, data = null, collumnsInRow) {
+export const cancelHandler = function(currentRow, data = null, standardCollumnsInRow) {
     const currentRowId = currentRow.getAttribute("myId");
     const currentObject = data.find(item => item.id.value == Number(currentRowId));
     removeAllChildNodes(currentRow);
 
-    for (const collumn of collumnsInRow) {
+    for (const collumn of standardCollumnsInRow) {
         collumn.renderMethod(currentRow, currentObject, data);
     }
 }

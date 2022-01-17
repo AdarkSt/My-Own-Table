@@ -1,4 +1,11 @@
-export const tableRendrer = function(data = [], collumnsInRow, element) {
+/**
+ * *tableRender method shuld render table from data in element with standard collumns
+ * @param {Array} data // root data for table
+ * @param {Object} standardCollumnsInRow // collumns standard in one row
+ * @param {HTMLElement} element // element wher shuld be rendered table
+ */
+
+export const tableRender = function(data = [], standardCollumnsInRow, element) {
     const table = document.createElement("table");
     table.className = "my-table-style table table-dark table-striped table-bordered table-hover table-responsive blockquote text-center"
 
@@ -16,7 +23,7 @@ export const tableRendrer = function(data = [], collumnsInRow, element) {
         const currentRow = document.createElement("tr");
         currentRow.setAttribute("myId", object.id.value);
 
-        for (const collumn of collumnsInRow) {
+        for (const collumn of standardCollumnsInRow) {
             if (index == 0) {
                 collumn.headerRender(headerRow);
             }

@@ -1,19 +1,19 @@
 import { removeAllChildNodes } from "./helpers.js";
 
-export function dataInnerObjectChangeHandle(object, collumnsInRow, table, data) {
+export function dataInnerObjectChangeHandle(object, standardCollumnsInRow, table, data) {
     const tableRows = Array.from(table.lastElementChild.children);
     const changableRow = tableRows.find(row => row.getAttribute("myId") == object.id.value);
 
     removeAllChildNodes(changableRow);
-    for (const collumn of collumnsInRow) {
+    for (const collumn of standardCollumnsInRow) {
         collumn.renderMethod(changableRow, object, data);
     }
 }
 
 export function dataChangeHandle(data, table) {
-    const rows = Array.from(table.lastElementChild.children);
+    const tableRows = Array.from(table.lastElementChild.children);
 
-    const rowIdCollection = rows.map((row) => {
+    const rowIdCollection = tableRows.map((row) => {
         return Number(row.getAttribute("myId"));
     })
 
@@ -29,6 +29,6 @@ export function dataChangeHandle(data, table) {
         }
     })
 
-    const removableRow = rows.find(item => Number(item.getAttribute("myId")) == removableRowId);
+    const removableRow = tableRows.find(item => Number(item.getAttribute("myId")) == removableRowId);
     removableRow.remove();
 }

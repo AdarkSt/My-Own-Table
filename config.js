@@ -2,7 +2,7 @@ import { deleteButtonListener, updateButtonListener, saveButtonListener, cancelB
 
 /**
  * *collumnHeaderRender method should render table header collumns in row
- * @param {*} trElement //row element wher must fit collumns
+ * @param {HTMLElement} trElement //row element wher must fit collumns
  */
 const collumnHeaderRender = function(trElement) {
     const thElement = document.createElement("th");
@@ -12,9 +12,9 @@ const collumnHeaderRender = function(trElement) {
 
 /**
  * *buttonRender method should render collumn with buttons 
- * @param {*} trElement //row element wher must fit collumn
- * @param {*} [object=null] //?this parametr is excess
- * @param {*} [data=null] //data which should manipulate buttons in that collumn
+ * @param {HTMLElement} trElement //row element wher must fit collumn
+ * @param {Object} [object=null] //?this parametr is excess
+ * @param {Array} [data=null] //data which should manipulate buttons in that collumn
  */
 const buttonRender = function(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
@@ -30,7 +30,7 @@ const buttonRender = function(trElement, object = null, data = null) {
 
         buttonElement.addEventListener("click", (event) => {
             const currentButton = event.target;
-            button.handleMethod(currentButton, data, collumnsInRow);
+            button.handleMethod(currentButton, data, standardCollumnsInRow);
         })
 
         tdElement.append(buttonElement)
@@ -41,8 +41,8 @@ const buttonRender = function(trElement, object = null, data = null) {
 
 /**
  * *textRender methood should render collumn with text 
- * @param {*} trElement //row element wher must fit collumn
- * @param {*} [object=null] //object from data which content must be in current row
+ * @param {HTMLElement} trElement //row element wher must fit collumn
+ * @param {Object} [object=null] //object from data which content must be in current row
  */
 const textRender = function(trElement, object = null) {
     const tdElement = document.createElement("td");
@@ -58,12 +58,10 @@ const textRender = function(trElement, object = null) {
     trElement.append(tdElement);
 }
 
-
-
 /**
  * *calcRender method should render collumn with calculation other collumns values 
- * @param {*} trElement //row element wher must fit collumn
- * @param {*} [object=null] //object from data which content must be in current row
+ * @param {HTMLElement} trElement //row element wher must fit collumn
+ * @param {Object} [object=null] //object from data which content must be in current row
  */
 const calcRender = function(trElement, object = null) {
     const tdElement = document.createElement("td", {});
@@ -77,8 +75,8 @@ const calcRender = function(trElement, object = null) {
 
 /**
  * *iconRender method should render collumn with image 
- * @param {*} trElement //row element wher must fit collumn
- * @param {*} [object=null] //object from data which content must be in current row
+ * @param {HTMLElement} trElement //row element wher must fit collumn
+ * @param {Object} [object=null] //object from data which content must be in current row
  */
 const iconRender = function(trElement, object = null) {
     const tdElement = document.createElement("td");
@@ -93,7 +91,7 @@ const iconRender = function(trElement, object = null) {
     trElement.append(tdElement);
 }
 
-export const collumnsInRow = [{
+export const standardCollumnsInRow = [{
         key: "league",
         label: "League",
         collumnClass: "",
