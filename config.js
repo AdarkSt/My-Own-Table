@@ -1,25 +1,17 @@
 import { deleteButtonListener, updateButtonListener, saveButtonListener, cancelButtonListener } from "./table_buttons_listeners.js"
+import { inputElementCreate } from "./helpers.js"
+import { updateHandler } from "./data_manipulations.js"
 
-/**
- * *collumnHeaderRender method should render table header collumns in row
- * @param {HTMLElement} trElement //row element wher must fit collumns
- */
-const collumnHeaderRender = function(trElement) {
+
+function collumnHeaderRender(trElement) {
     const thElement = document.createElement("th");
     thElement.textContent = this.label;
     trElement.append(thElement);
 }
 
-/**
- * *buttonRender method should render collumn with buttons 
- * @param {HTMLElement} trElement //row element wher must fit collumn
- * @param {Object} [object=null] //?this parametr is excess
- * @param {Array} [data=null] //data which should manipulate buttons in that collumn
- */
-const buttonRender = function(trElement, object = null, data = null) {
+function buttonRender(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
-    tdElement.setAttribute("readonly", "true");
 
     for (let button of this.inner) {
         const buttonElement = document.createElement("button");
@@ -39,54 +31,75 @@ const buttonRender = function(trElement, object = null, data = null) {
     trElement.append(tdElement);
 }
 
-/**
- * *textRender methood should render collumn with text 
- * @param {HTMLElement} trElement //row element wher must fit collumn
- * @param {Object} [object=null] //object from data which content must be in current row
- */
-const textRender = function(trElement, object = null) {
+function textRender(trElement, object = null) {
     const tdElement = document.createElement("td");
-    tdElement.className = this.collumnClass;
-    tdElement.textContent = object[this.key].value;
+    const inputElement = inputElementCreate("text", object[this.key], this.innerClass);
+    inputElement.style.width = (inputElement.value.length + 5) * 8 + "px";
+    inputElement.addEventListener("change", (event) => {
+        const currentInputValue = event.target.value;
+        updateHandler(currentInputValue, object, this.key)
+    })
 
-    if (object[this.key].editable) {
-        tdElement.setAttribute("readonly", "false");
-    } else {
-        tdElement.setAttribute("readonly", "true");
-    }
-
+    tdElement.append(inputElement);
     trElement.append(tdElement);
 }
 
-/**
- * *calcRender method should render collumn with calculation other collumns values 
- * @param {HTMLElement} trElement //row element wher must fit collumn
- * @param {Object} [object=null] //object from data which content must be in current row
- */
-const calcRender = function(trElement, object = null) {
+function numberRender(trElement, object = null) {
+    const tdElement = document.createElement("td");
+    const inputElement = inputElementCreate("number", object[this.key], this.innerClass);
+    inputElement.style.width = (inputElement.value.length + 5) * 8 + "px";
+    inputElement.addEventListener("change", (event) => {
+        const currentInputValue = event.target.value;
+        updateHandler(currentInputValue, object, this.key)
+    })
+
+    tdElement.append(inputElement);
+    trElement.append(tdElement);
+}
+
+function dateRender(trElement, object = null) {
+    const tdElement = document.createElement("td");
+    const inputElement = inputElementCreate("date", object[this.key], this.innerClass);
+    inputElement.style.width = (inputElement.value.length + 10) * 8 + "px";
+    inputElement.addEventListener("change", (event) => {
+        const currentInputValue = event.target.value;
+        updateHandler(currentInputValue, object, this.key)
+    })
+
+    tdElement.append(inputElement);
+    trElement.append(tdElement);
+}
+
+function calcRender(trElement, object = null) {
     const tdElement = document.createElement("td", {});
     tdElement.className = this.collumnClass;
     tdElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
-
     tdElement.setAttribute("readonly", "true");
-
     trElement.append(tdElement);
 }
 
-/**
- * *iconRender method should render collumn with image 
- * @param {HTMLElement} trElement //row element wher must fit collumn
- * @param {Object} [object=null] //object from data which content must be in current row
- */
-const iconRender = function(trElement, object = null) {
+function iconRender(trElement, object = null) {
     const tdElement = document.createElement("td");
-    tdElement.className = this.collumnClass;
-    tdElement.setAttribute("readonly", "true")
-
     const imgElement = document.createElement("img");
-    imgElement.className += this.innerClass;
 
-    imgElement.src = object[this.key];
+    imgElement.className += "imgClass";
+    imgElement.setAttribute("src", object[this.key].value);
+    if (object[this.key].editable) {
+        const inputElement = inputElementCreate("file", object[this.key], this.innerClass);
+        inputElement.hidden = "true";
+        const key = this.key
+
+        inputElement.addEventListener("change", (event) => {
+            const fReader = new FileReader();
+            fReader.readAsDataURL(event.target.files[0]);
+            fReader.onloadend = function(event) {
+                imgElement.src = event.target.result;
+                const currentInputValue = imgElement.src;
+                updateHandler(currentInputValue, object, key);
+            }
+        })
+        tdElement.append(inputElement);
+    }
     tdElement.append(imgElement);
     trElement.append(tdElement);
 }
@@ -94,57 +107,50 @@ const iconRender = function(trElement, object = null) {
 export const standardCollumnsInRow = [{
         key: "league",
         label: "League",
-        collumnClass: "",
-        innerClass: "",
+        innerClass: "input",
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "teams",
         label: "Teams",
-        collumnClass: "",
-        innerClass: "",
+        innerClass: "input",
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "date",
         label: "Date",
-        collumnClass: "",
-        innerClass: "",
-        renderMethod: textRender,
+        innerClass: "input",
+        renderMethod: dateRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "icon",
         label: "Icon",
-        collumnClass: "",
-        innerClass: "",
+        innerClass: "fileInput form-control",
         renderMethod: iconRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "result",
         label: "Result",
-        collumnClass: "",
-        innerClass: "",
+        innerClass: "input",
         renderMethod: textRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "matches",
         label: "Matches",
-        collumnClass: "",
-        innerClass: "",
-        renderMethod: textRender,
+        innerClass: "input",
+        renderMethod: numberRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "draw",
         label: "Draws",
-        collumnClass: "",
-        innerClass: "",
-        renderMethod: textRender,
+        innerClass: "input",
+        renderMethod: numberRender,
         headerRender: collumnHeaderRender,
     },
     {
@@ -152,15 +158,13 @@ export const standardCollumnsInRow = [{
         call2Key: "draw",
         key: "advantage",
         label: "Advantage",
-        collumnClass: "",
-        innerClass: "",
+        innerClass: "input",
         renderMethod: calcRender,
         headerRender: collumnHeaderRender,
     },
     {
         key: "action",
         label: "Action",
-        collumnClass: "",
         innerClass: "",
         inner: [{
                 name: "Update",
