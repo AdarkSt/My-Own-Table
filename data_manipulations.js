@@ -8,9 +8,9 @@ export function deleteHandler(currentRowId, data = null) {
     localStorage.setItem("data", JSON.stringify(data));
 }
 
-export function updateHandler(value, object, key) {
+export function updateHandler(newValue, object, key) {
     const cloneObject = cloneDeep({}, object);
-    cloneObject[key].value = value;
+    cloneObject[key].value = newValue;
     clones[cloneObject.id.value] = cloneObject;
 }
 

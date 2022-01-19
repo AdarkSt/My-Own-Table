@@ -10,7 +10,7 @@ function collumnHeaderRender(trElement) {
     trElement.append(thElement);
 }
 
-function buttonRender(trElement, object = null, data = null) {
+function actionCollumnRender(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
 
@@ -76,7 +76,6 @@ function dateCollumnRender(trElement, object = null) {
 
 function calculateCollumnRender(trElement, object = null) {
     const tdElement = document.createElement("td", {});
-    tdElement.className = this.collumnClass;
     tdElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
     tdElement.setAttribute("readonly", "true");
     trElement.append(tdElement);
@@ -186,7 +185,7 @@ export const standardCollumnsInRow = [{
                 handleMethod: cancelButtonListener,
             }
         ],
-        renderMethod: buttonRender,
+        renderMethod: actionCollumnRender,
         headerRender: collumnHeaderRender,
     },
 ]

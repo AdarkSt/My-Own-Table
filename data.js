@@ -38,7 +38,7 @@ export const data = [{
             editable: false,
         },
         league: {
-            value: "INTERNATIONAL: Suzuki Cup, Group Stage",
+            value: "INTERNATIONAL: Suzuki Cup",
             editable: true,
         },
         date: {
