@@ -28,7 +28,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/qatarlogo.png",
             editable: false,
         }
     },
@@ -62,7 +62,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/suzukilogo.png",
             editable: true,
         }
     },
@@ -73,7 +73,7 @@ export const data = [{
         },
         league: {
             value: "ENGLAND: Premier League",
-            editable: true,
+            editable: false,
         },
         date: {
             value: "2021-12-28",
@@ -81,7 +81,7 @@ export const data = [{
         },
         teams: {
             value: "Leicester City - Liverpool",
-            editable: true,
+            editable: false,
         },
         result: {
             value: "0-4",
@@ -89,14 +89,14 @@ export const data = [{
         },
         matches: {
             value: 9,
-            editable: true
+            editable: false,
         },
         draw: {
             value: 1,
-            editable: true,
+            editable: false,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/premierleaguelogo.png",
             editable: false,
         }
     },
@@ -130,7 +130,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/portogallogo.png",
             editable: false,
         }
     },
@@ -164,7 +164,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/premierleaguelogo.png",
             editable: true,
         }
     },
@@ -198,7 +198,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/premierleaguelogo.png",
             editable: false,
         }
     },
@@ -213,15 +213,15 @@ export const data = [{
         },
         date: {
             value: "2021-12-28",
-            editable: true,
+            editable: false,
         },
         teams: {
             value: "Maritimo - Vizela",
-            editable: true,
+            editable: false,
         },
         result: {
             value: "0-0",
-            editable: true,
+            editable: false,
         },
         matches: {
             value: 12,
@@ -229,11 +229,11 @@ export const data = [{
         },
         draw: {
             value: 4,
-            editable: true,
+            editable: false,
         },
         icon: {
-            value: "images/table.png",
-            editable: true,
+            value: "images/portogallogo.png",
+            editable: false,
         }
     },
     {
@@ -266,7 +266,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/portogallogo.png",
             editable: false,
         }
     },
@@ -300,7 +300,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/indialogo.png",
             editable: true,
         }
     },
@@ -334,7 +334,7 @@ export const data = [{
             editable: false,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/premierleaguelogo.png",
             editable: false,
         }
     },
@@ -368,7 +368,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/belgianlogo.png",
             editable: false,
         }
     },
@@ -383,11 +383,11 @@ export const data = [{
         },
         date: {
             value: "2021-12-27",
-            editable: true,
+            editable: false,
         },
         teams: {
             value: "Mechelen - RFC Seraing",
-            editable: true,
+            editable: false,
         },
         result: {
             value: "1-1",
@@ -395,15 +395,15 @@ export const data = [{
         },
         matches: {
             value: 5,
-            editable: true
+            editable: false
         },
         draw: {
             value: 0,
-            editable: true,
+            editable: false,
         },
         icon: {
-            value: "images/table.png",
-            editable: true,
+            value: "images/belgianlogo.png",
+            editable: false,
         }
     },
     {
@@ -436,7 +436,7 @@ export const data = [{
             editable: true,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/belgianlogo.png",
             editable: false,
         }
     },
@@ -470,7 +470,7 @@ export const data = [{
             editable: false,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/belgianlogo.png",
             editable: true,
         }
     },
@@ -481,11 +481,11 @@ export const data = [{
         },
         league: {
             value: "ENGLAND: Championship",
-            editable: true,
+            editable: false,
         },
         date: {
             value: "2021-12-27",
-            editable: true,
+            editable: false,
         },
         teams: {
             value: "QPR - Bournemouth",
@@ -493,19 +493,43 @@ export const data = [{
         },
         result: {
             value: "2-1",
-            editable: true,
+            editable: false,
         },
         matches: {
             value: 8,
-            editable: true
+            editable: false
         },
         draw: {
             value: 4,
-            editable: true,
+            editable: false,
         },
         icon: {
-            value: "images/table.png",
+            value: "images/EnglishChampionshiplogo.png",
             editable: false,
         }
     },
 ];
+
+data.forEach(item => {
+    let countOfNotEditables = 0;
+    Object.values(item).forEach((item) => {
+        if (!item.editable) {
+            ++countOfNotEditables
+        }
+    })
+    if (countOfNotEditables === Object.keys(item).length) {
+        item.action = {
+            update: false,
+            save: false,
+            cancel: false,
+            delete: true,
+        }
+    } else {
+        item.action = {
+            update: true,
+            save: false,
+            cancel: false,
+            delete: true,
+        }
+    }
+})

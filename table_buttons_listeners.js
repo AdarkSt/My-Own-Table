@@ -1,5 +1,5 @@
 import { deleteHandler, saveHandler, cancelHandler } from "./data_manipulations.js"
-import { changeEditableityOfNodes } from "./helpers.js";
+import { changeEditableityOfInputs, changeVisiblityOfButtons } from "./helpers.js";
 
 export function deleteButtonListener(currentButton, data = null) {
     const currentRowId = currentButton.parentNode.parentNode.getAttribute("myId");
@@ -25,17 +25,13 @@ export function updateButtonListener(currentButton) {
     const currentRow = currentButton.parentNode.parentNode;
     const childrensOfCurrentRow = Array.from(currentRow.children);
 
-    changeEditableityOfNodes(childrensOfCurrentRow);
-
-    for (const button of currentCellChildrens) {
-        button.hidden = !button.hidden;
-    } //??
+    changeEditableityOfInputs(childrensOfCurrentRow);
+    changeVisiblityOfButtons(currentCellChildrens);
 
     Swal.fire({
         title: 'Edit mode for this row ENABLED! \n \n Please click Save button for Save your changes or Cancel button for cancel your changes',
         icon: 'warning',
     })
-
 }
 
 export function saveButtonListener(currentButton, data = null) {
@@ -55,6 +51,5 @@ export function cancelButtonListener(currentButton, data = null, standardCollumn
         title: 'Your changes have been cancelled \n \n Edit mode for this row DISABLED! \n Please click Update button again for Enable',
         icon: 'warning',
     })
-
     cancelHandler(currentRow, data, standardCollumnsInRow);
 }
