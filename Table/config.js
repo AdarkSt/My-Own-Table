@@ -1,7 +1,7 @@
 import { listenDeleteBtn, listenUpdateBtn, listenSaveBtn, listenCencelBtn } from "./table_buttons_listeners.js"
-import { changeEditableityOfProperty, createBtnElement, createInputElement } from "./helpers.js"
-import { handleUpdate } from "./data_manipulations.js"
-import { readFileInImg } from "./helpers.js"
+import { changeEditableityOfProperty, createBtnElement, createInputElement } from "../helpers.js"
+import { handleUpdate } from "../Data/data_manipulations.js"
+import { readFileInImg } from "../helpers.js"
 
 function renderCollHeader(trElement) {
     const thElement = document.createElement("th");

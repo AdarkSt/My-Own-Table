@@ -1,5 +1,5 @@
-import { handleDelete, handleSave, handleCencel } from "./data_manipulations.js"
-import { changeEditableityOfInputs, changeVisiblityOfButtons } from "./helpers.js";
+import { handleDelete, handleSave, handleCencel } from "../Data/data_manipulations.js"
+import { changeEditableityOfInputs, changeVisiblityOfButtons } from "../helpers.js";
 
 export function listenDeleteBtn(currentButton, data = null) {
     const currentRowId = currentButton.parentNode.parentNode.getAttribute("myId");

@@ -1,4 +1,4 @@
-import { removeAllChildNodes } from "./helpers.js";
+import { removeAllChildNodes } from "../helpers.js";
 
 const changedObjects = {}
 

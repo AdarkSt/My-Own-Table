@@ -12,7 +12,6 @@ export function renderTable(data = [], standardCollumnsInRow, element) {
     thead.append(headerRow)
 
     for (const object of data) {
-
         const currentRow = document.createElement("tr");
         currentRow.setAttribute("myId", object.id.value);
 

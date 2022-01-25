@@ -1,9 +1,9 @@
-import { renderTable } from "./table.js";
-import { standardCollumnsInRow } from "./config.js"
-import { data } from "./data.js"
+import { renderTable } from "./Table/table.js";
+import { standardCollumnsInRow } from "./Table/config.js"
+import { data } from "./Data/data.js"
 import { handleObjectChange, handleDataChange } from "./data_change_handling.js"
 import { makeDataProxy } from "./helpers.js"
-import { renderTableSearch } from "./search.js";
+import { renderTableSearch } from "./Table/search.js";
 
 const main = document.querySelector(".main");
 const navbar = document.querySelector("nav");

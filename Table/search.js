@@ -1,4 +1,4 @@
-import { createInputElement } from "./helpers.js";
+import { createInputElement } from "../helpers.js";
 
 export function renderTableSearch(element, table, collumns) {
     const form = document.createElement("form");
@@ -16,7 +16,7 @@ export function renderTableSearch(element, table, collumns) {
         }
     }
 
-    input.setAttribute("placeholder", "Search...")
+    input.setAttribute("placeholder", `Search...`)
     form.className += "searchForm";
     img.setAttribute("src", "images/download.png")
 
