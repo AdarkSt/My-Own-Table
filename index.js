@@ -1,10 +1,12 @@
-import { tableRender } from "./table.js";
+import { renderTable } from "./table.js";
 import { standardCollumnsInRow } from "./config.js"
 import { data } from "./data.js"
-import { dataInnerObjectChangeHandle, dataChangeHandle } from "./data_change_handling.js"
-import { dataProxyMaker } from "./helpers.js"
+import { handleObjectChange, handleDataChange } from "./data_change_handling.js"
+import { makeDataProxy } from "./helpers.js"
+import { renderTableSearch } from "./search.js";
 
 const main = document.querySelector(".main");
+const navbar = document.querySelector("nav");
 
 const dataChangeListener = {
     get: function(target, prop) {
@@ -16,9 +18,9 @@ const dataChangeListener = {
     set: function(target, property, value) {
         target[property] = value;
         if (property == "length") {
-            dataChangeHandle(myData, table);
+            handleDataChange(myData, table);
         } else {
-            dataInnerObjectChangeHandle(value, standardCollumnsInRow, table, myData);
+            handleObjectChange(target[property], standardCollumnsInRow, table, myData);
         }
         return true;
     }
@@ -27,10 +29,11 @@ const dataChangeListener = {
 let myData;
 
 if (localStorage.getItem("data")) {
-    myData = dataProxyMaker(JSON.parse(localStorage.getItem("data")), dataChangeListener);
+    myData = makeDataProxy(JSON.parse(localStorage.getItem("data")), dataChangeListener);
 } else {
     localStorage.setItem("data", JSON.stringify(data));
-    myData = dataProxyMaker(data, dataChangeListener);
+    myData = makeDataProxy(data, dataChangeListener);
 }
 
-const table = tableRender(myData, standardCollumnsInRow, main);
+const table = renderTable(myData, standardCollumnsInRow, main);
+renderTableSearch(navbar, table, standardCollumnsInRow);

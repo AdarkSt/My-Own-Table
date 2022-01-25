@@ -16,31 +16,33 @@ export function changeEditableityOfInputs(childrens) {
     })
 }
 
-export function cloneDeep(cloneObject, object) {
-    for (const key in object) {
-        if (object[key].constructor != Object) {
-            cloneObject[key] = object[key];
-        } else {
-            cloneObject[key] = cloneDeep({}, object[key]);
-        }
-    }
-    return cloneObject;
+export function changeEditableityOfProperty(inputValue, maxValue) {
+    let editable;
+    inputValue > maxValue ? editable = false : editable = true
+    return editable;
 }
 
-export function createInputElement(type, object = { value: "", editable: "" }, className, hidden = false) {
+export function createInputElement(type, object = { value: "", editable: "" }, className, hidden = false, readonly = true) {
     const inputElement = document.createElement("input");
     inputElement.setAttribute("type", `${type}`);
     inputElement.setAttribute("value", `${object.value}`);
     inputElement.setAttribute("editable", `${object.editable}`);
-    inputElement.setAttribute("readonly", "true");
-    if (hidden) {
-        inputElement.setAttribute("hidden", "true");
-    }
+
+    readonly ? inputElement.setAttribute("readonly", `${readonly}`) : null;
+    hidden ? inputElement.setAttribute("hidden", `${hidden}`) : null;
     inputElement.className = className;
     return inputElement;
 }
 
-export function dataProxyMaker(data, listener) {
+export function createBtnElement(btnCharacter, hidden) {
+    const btnElement = document.createElement("button");
+    btnElement.className = btnCharacter.className;
+    btnElement.textContent = btnCharacter.name;
+    btnElement.hidden = hidden;
+    return btnElement;
+}
+
+export function makeDataProxy(data, listener) {
     const proxyOfData = new Proxy(data, listener);
     return proxyOfData;
 }

@@ -52,3 +52,36 @@
     width: 40px;
     height: 40px;
 }
+
+.inputSearch {
+    background-color: transparent;
+    border: 1px solid white;
+    color: rgb(255, 255, 255);
+    border: none;
+}
+
+.inputSearch:focus {
+    outline: none;
+}
+
+.searchForm {
+    display: flex;
+    height: 30px;
+    margin-right: 10px;
+    border: 1px solid white;
+}
+
+.searchSelect {
+    border: none;
+    background-color: transparent;
+    color: white;
+}
+
+.searchSelect:focus {
+    outline: none;
+}
+
+.selectOption {
+    background-color: transparent;
+    color: black;
+}

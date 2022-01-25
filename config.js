@@ -1,87 +1,102 @@
-import { deleteButtonListener, updateButtonListener, saveButtonListener, cancelButtonListener } from "./table_buttons_listeners.js"
-import { createInputElement } from "./helpers.js"
-import { updateHandler } from "./data_manipulations.js"
+import { listenDeleteBtn, listenUpdateBtn, listenSaveBtn, listenCencelBtn } from "./table_buttons_listeners.js"
+import { changeEditableityOfProperty, createBtnElement, createInputElement } from "./helpers.js"
+import { handleUpdate } from "./data_manipulations.js"
 import { readFileInImg } from "./helpers.js"
 
-
-function collumnHeaderRender(trElement) {
+function renderCollHeader(trElement) {
     const thElement = document.createElement("th");
     thElement.textContent = this.label;
     trElement.append(thElement);
 }
 
-function actionCollumnRender(trElement, object = null, data = null) {
+function renderActionColl(trElement, object = null, data = null) {
     const tdElement = document.createElement("td");
     tdElement.className = this.collumnClass;
 
-    for (let button of this.inner) {
-        const buttonElement = document.createElement("button");
-        buttonElement.hidden = !object[this.key][button.key];
+    for (const btnCharacter of this.inner) {
+        const btnElement = createBtnElement(btnCharacter, !object[this.key][btnCharacter.key]);
 
-        buttonElement.className = "btn btn-outline-secondary btn-sm btn-block "
-        buttonElement.textContent = button.name;
-
-        buttonElement.addEventListener("click", (event) => {
-            const currentButton = event.target;
-            button.handleMethod(currentButton, data, standardCollumnsInRow);
+        btnElement.addEventListener("click", (event) => {
+            const currentBtn = event.target;
+            btnCharacter.handleMethod(currentBtn, data, standardCollumnsInRow);
         })
-
-        tdElement.append(buttonElement)
+        tdElement.append(btnElement)
     }
-
     trElement.append(tdElement);
 }
 
-function textCollumnRender(trElement, object = null) {
+function renderTextColl(trElement, object = null) {
     const tdElement = document.createElement("td");
     const inputElement = createInputElement("text", object[this.key], this.innerClass);
     inputElement.style.width = (inputElement.value.length + 5) * 8 + "px";
 
     inputElement.addEventListener("change", (event) => {
+        const saveBtn = trElement.querySelector(".disabled");
+        if (saveBtn)
+            saveBtn.classList.remove("disabled");
+
         const inputValue = event.target.value;
-        updateHandler(inputValue, object, this.key)
+        const id = object.id.value;
+        handleUpdate(inputValue, object, this.key, id)
     })
 
     tdElement.append(inputElement);
     trElement.append(tdElement);
 }
 
-function numberRender(trElement, object = null) {
+function renderNumColl(trElement, object = null) {
     const tdElement = document.createElement("td");
     const inputElement = createInputElement("number", object[this.key], this.innerClass);
     inputElement.style.width = (inputElement.value.length + 5) * 8 + "px";
 
     inputElement.addEventListener("change", (event) => {
+        const saveBtn = trElement.querySelector(".disabled");
+        if (saveBtn)
+            saveBtn.classList.remove("disabled");
+
         const inputValue = event.target.value;
-        updateHandler(inputValue, object, this.key)
+        const id = object.id.value;
+        if (this.maxValue) {
+            var isEditable = changeEditableityOfProperty(inputValue, this.maxValue);
+        }
+        handleUpdate(inputValue, object, this.key, id, isEditable)
     })
 
     tdElement.append(inputElement);
     trElement.append(tdElement);
 }
 
-function dateCollumnRender(trElement, object = null) {
+function renderDateColl(trElement, object = null) {
     const tdElement = document.createElement("td");
     const inputElement = createInputElement("date", object[this.key], this.innerClass);
     inputElement.style.width = (inputElement.value.length + 10) * 8 + "px";
 
     inputElement.addEventListener("change", (event) => {
+        const saveBtn = trElement.querySelector(".disabled");
+        if (saveBtn)
+            saveBtn.classList.remove("disabled");
+
         const inputValue = event.target.value;
-        updateHandler(inputValue, object, this.key)
+        const id = object.id.value;
+        handleUpdate(inputValue, object, this.key, id)
     })
 
     tdElement.append(inputElement);
     trElement.append(tdElement);
 }
 
-function calculateCollumnRender(trElement, object = null) {
-    const tdElement = document.createElement("td", {});
-    tdElement.textContent = object[this.call1Key].value - object[this.call2Key].value;
-    tdElement.setAttribute("readonly", "true");
+function renderCalculatColl(trElement, object = null) {
+    const tdElement = document.createElement("td");
+    const inputElement = createInputElement("number", object[this.key], this.innerClass, false, true);
+    inputElement.style.width = (inputElement.value.length + 5) * 8 + "px";
+
+    inputElement.value = object[this.call1Key].value - object[this.call2Key].value;
+
+    tdElement.append(inputElement);
     trElement.append(tdElement);
 }
 
-function iconCollumnRender(trElement, object = null) {
+function renderIconColl(trElement, object = null) {
     const tdElement = document.createElement("td");
 
     const imgElement = document.createElement("img");
@@ -93,8 +108,13 @@ function iconCollumnRender(trElement, object = null) {
         const key = this.key
 
         inputElement.addEventListener("change", (event) => {
+            const saveBtn = trElement.querySelector(".disabled");
+            if (saveBtn)
+                saveBtn.classList.remove("disabled");
+
             const file = event.target.files[0]
-            readFileInImg(file, imgElement, updateHandler, object, key);
+            const id = object.id.value;
+            readFileInImg(file, imgElement, handleUpdate, object, key, id);
         })
         tdElement.append(inputElement);
     }
@@ -106,50 +126,58 @@ export const standardCollumnsInRow = [{
         key: "league",
         label: "League",
         innerClass: "input",
-        renderMethod: textCollumnRender,
-        headerRender: collumnHeaderRender,
+        searchable: true,
+        renderMethod: renderTextColl,
+        headerRender: renderCollHeader,
     },
     {
         key: "teams",
         label: "Teams",
         innerClass: "input",
-        renderMethod: textCollumnRender,
-        headerRender: collumnHeaderRender,
+        searchable: true,
+        renderMethod: renderTextColl,
+        headerRender: renderCollHeader,
     },
     {
         key: "date",
         label: "Date",
         innerClass: "input",
-        renderMethod: dateCollumnRender,
-        headerRender: collumnHeaderRender,
+        searchable: true,
+        renderMethod: renderDateColl,
+        headerRender: renderCollHeader,
     },
     {
         key: "icon",
         label: "Icon",
         innerClass: "fileInput form-control",
-        renderMethod: iconCollumnRender,
-        headerRender: collumnHeaderRender,
+        searchable: false,
+        renderMethod: renderIconColl,
+        headerRender: renderCollHeader,
     },
     {
         key: "result",
         label: "Result",
         innerClass: "input",
-        renderMethod: textCollumnRender,
-        headerRender: collumnHeaderRender,
+        searchable: true,
+        renderMethod: renderTextColl,
+        headerRender: renderCollHeader,
     },
     {
         key: "matches",
         label: "Matches",
         innerClass: "input",
-        renderMethod: numberRender,
-        headerRender: collumnHeaderRender,
+        searchable: true,
+        maxValue: 14,
+        renderMethod: renderNumColl,
+        headerRender: renderCollHeader,
     },
     {
         key: "draw",
         label: "Draws",
         innerClass: "input",
-        renderMethod: numberRender,
-        headerRender: collumnHeaderRender,
+        searchable: true,
+        renderMethod: renderNumColl,
+        headerRender: renderCollHeader,
     },
     {
         call1Key: "matches",
@@ -157,35 +185,41 @@ export const standardCollumnsInRow = [{
         key: "advantage",
         label: "Advantage",
         innerClass: "input",
-        renderMethod: calculateCollumnRender,
-        headerRender: collumnHeaderRender,
+        searchable: true,
+        renderMethod: renderCalculatColl,
+        headerRender: renderCollHeader,
     },
     {
         key: "action",
         label: "Action",
+        searchable: false,
         innerClass: "",
         inner: [{
                 key: "update",
                 name: "Update",
-                handleMethod: updateButtonListener,
+                className: "btn btn-outline-secondary btn-sm btn-block",
+                handleMethod: listenUpdateBtn,
             },
             {
                 key: "save",
                 name: "Save",
-                handleMethod: saveButtonListener,
+                className: "disabled btn btn-outline-secondary btn-sm btn-block",
+                handleMethod: listenSaveBtn,
             },
             {
                 key: "delete",
                 name: "Delete",
-                handleMethod: deleteButtonListener,
+                className: "btn btn-outline-secondary btn-sm btn-block",
+                handleMethod: listenDeleteBtn,
             },
             {
                 key: "cancel",
                 name: "Cancel",
-                handleMethod: cancelButtonListener,
+                className: "btn btn-outline-secondary btn-sm btn-block",
+                handleMethod: listenCencelBtn,
             }
         ],
-        renderMethod: actionCollumnRender,
-        headerRender: collumnHeaderRender,
+        renderMethod: renderActionColl,
+        headerRender: renderCollHeader,
     },
 ]

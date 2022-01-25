@@ -1,6 +1,6 @@
 import { removeAllChildNodes } from "./helpers.js";
 
-export function dataInnerObjectChangeHandle(object, standardCollumnsInRow, table, data) {
+export function handleObjectChange(object, standardCollumnsInRow, table, data) {
     const tableRows = Array.from(table.lastElementChild.children);
     const changableRow = tableRows.find(row => row.getAttribute("myId") == object.id.value);
 
@@ -10,7 +10,7 @@ export function dataInnerObjectChangeHandle(object, standardCollumnsInRow, table
     }
 }
 
-export function dataChangeHandle(data, table) {
+export function handleDataChange(data, table) {
     const tableRows = Array.from(table.lastElementChild.children);
 
     const rowIdCollection = tableRows.map((row) => {
