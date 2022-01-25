@@ -12,11 +12,15 @@ export function renderTable(data = [], standardCollumnsInRow, element) {
     thead.append(headerRow)
 
     for (const object of data) {
+
         const currentRow = document.createElement("tr");
         currentRow.setAttribute("myId", object.id.value);
 
         for (const collumn of standardCollumnsInRow) {
-            index === 0 ? collumn.headerRender(headerRow) : collumn.renderMethod(currentRow, object, data);
+            if (index == 0) {
+                collumn.headerRender(headerRow);
+            }
+            collumn.renderMethod(currentRow, object, data);
         }
         ++index;
         tbody.append(currentRow);
